@@ -1,0 +1,664 @@
+变量:存储数据的容器
+变量名:只能以字母，下划线，$开头，以数字，字母，下划线，$组合
+变量名尽量使用驼峰命名方式 多单词组合的话后面的单词首字母大写
+变量名不能以关键字和保留字命名  特殊的变量名也不能用  name top
+变量只声明没赋值，这个变量是undefined
+----变量声明提升  在同一个作用域下，声明的变量会将声明过程直接提升到作用域最顶端，但赋值过程不会----
+例如console.log(a)
+    var a=10     结果输出undefine
+变量不能重复声明，会把之前的覆盖掉
+
+数据类型: 数字number 字符串(带引号的)string 布尔(true false)boolean undefined null 对象object
+数据类型检测 使用 typeof   例如console.log(typeof num)
+数据类型之间的转换
+隐式转换   1.加号左右如果出现字符串，就会将其他不是字符串的转换成字符串，再进行运算
+  .val()获得的是字符串类型
+2.*  /  -  % 这些符号左右如果出现数字，就会将其他不是数字的转化为数字，再运算(使用Number方法)
+3. if(条件) 条件 默认会转化为布尔值
+
+字符串转化为数字
+  1，将字符串转化为数字 num*1
+  2，使用Number(num) 转化为数字，转化规则  括号内的值能否转化为数字，不能的话转化成NaN  NaN也是数字   true转化为1，false转化为0
+  3，使用parseFloat()浮点型或paresInt()整型 规则 一个字符一个字符的转化，不能则为NaN
+      console.log(praseInt('3.14'))   结果是3
+      console.log(praseInt('3a.14'))  结果是3
+      console.log(praseInt('a3.14'))  结果是NaN
+
+！！注意：-，*，/  可以自动转化结果为数字类型   +
+数字和其他类型转化为字符串 String(被转化)   被转化.toString()
+其他类型转化成布尔类型  Boolean(被转化的)  只有0 '' undefined null NaN 可转化为false，其他都转化为true   有转化为true 没有转化为false
+
+
+语句:  顺序  分支  循环
+分支语句 if  switch
+判断语句---------------------------------------
+1.
+if(){
+
+}
+
+2.
+if(){
+
+}else{
+
+}
+
+3.if(){
+
+}else if(){
+
+}else{
+
+}
+只要一条分支成立，就会执行完毕跳出
+
+运算符
+++a输出计算之后的结果  a++输出计算之前的结果
+a+=10    相当于a=a+10
+逻辑运算> < >= <= == === != !==
+==比较值是否相等   ===比较值和类型是否相等
+console.log(10=='10')   true
+console.log(10==='10')  false
+通常比较值相等，三个等号会严谨
+0=='' 是成立的
+
+&&与 ||或 ！非
+
+switch
+switch(要判断的值){
+    case 1：当值 ===1的时候执行的事；
+    break;
+    derault:上述条件均不成立执行的事;
+}
+switch语句中break作用 执行到break时直接跳出
+
+var day = 1;
+switch(day){
+    case 1:console.log('啊');break;
+    case 2:console.log('啊');break;
+    case 3:console.log('啊');break;
+    default:console.log('啊啊');
+}
+
+循环语句--------------------------------------
+for(var i = 0;i < 10;i++){
+    每次条件成立要执行的事
+}
+
+条件一旦不成立就停止执行循环
+continue 跳出当前次循环
+break 跳出for循环语句
+for(var i = 0;i < 10;i++){
+    if(i === 4){
+        continue
+        //i++
+        //break
+    }
+    console.log(i)
+}
+continue结果没有4    break结果1,2,3
+----------------------2018.07.06---------------------------
+函数
+函数声明
+函数声明提升 在同一作用域下使用function定义的函数会提升到当前作用域最顶端
+1  function test1(){
+    内容
+}
+test()
+
+2  var test=function(){
+    内容
+}
+test()
+
+
+作用域  只有函数才有作用域 函数的大括号内就是一个作用域
+我们把script标签当做一个全局作用域
+全局下的小作用域称为局部
+全局声明的变量和函数所有作用域都可访问 尽量少声明全局变量
+
+函数的返回值
+function test2(){
+    var a=10
+    return a
+}
+
+var b = test2()
+b的值是10
+return 1跳出函数，return后的语句不执行
+       2return后面的值就是函数的返回值
+
+
+函数的参数  写在function后的小括号内的值，就是函数的参数
+函数声明的时候 小括号内的参数叫做 形参
+函数调用的时候 小括号内的参数叫做 实参
+
+在函数内部尽量不要使用外部的变量或函数
+
+---------------------07,11  对象----------------------------------
+自定义对象  内置对象(数组，正则表达式，日期，数字，数学，字符串，布尔)  浏览器对象
+定义对象 var imgObj = {
+    title:'笔记本',
+    imgsrc:'xxxxxxx.jpg'
+}
+
+如何获取对象内的属性名对应的属性值
+var firstTitle = imgObj.title
+
+var cat = {
+    name:'xiaoehei',
+    weight:5,
+    say:function(){
+    alert('miao')
+    }
+}
+如何调用对象内的方法
+cat.say()
+
+
+数组：数据的集合
+var numArr = [20,21,30,40,18]
+如何获取数组内的某个值数据
+var firstNum = numArr[0]
+
+所有的对象都由属性和方法组成
+数组的属性  length 获取数组的长度
+
+var numArr = [1,2,3,4]
+数组的方法
+push()
+var num = numArr.push(5,6,1,2)   向数组的最后添加一项或多项 并返回新数组的长度，修改了原数组
+console.log(num)   返回8
+
+var num1 numArr.shift()   删除数组的第一项 并返回被删除的数据，修改了原数组
+console.log(num1)  返回1
+
+numArr.pop()  删除数字的最后一项并返回被删除的数据，修改了原数组
+
+numArr.unshift(0,2)  向数组前面添加一项或多项并返回新数组的长度，修改了原数组
+----------------------------
+concat()
+concat()方法用于合并两个或多个数组。此方法不会更改现有数组，而是返回一个新数组。
+var num1 = [1, 2, 3],
+    num2 = [4, 5, 6],
+    num3 = [7, 8, 9];
+
+var nums = num1.concat(num2, num3);
+
+console.log(nums);
+// results in [1, 2, 3, 4, 5, 6, 7, 8, 9]
+---------------------------
+indexOf(a,ind) 在数组中查找是否存在(值和类型都相等)
+，存在的话返回第一次查找到的索引值，不存在的话返回-1
+arr.indexOf(arr[i])
+
+join() 方法将一个数组所有元素连接成一个字符串并返回这个字符串
+join() 所有元素以逗号连接
+join('') 所有元素直接连接
+join('-') 所有元素用-连接
+
+reserve()方法将数组中元素位置颠倒，返回新数组，原数组改变
+------------------------------------------
+slice()   方法返回一个从开始到结束（不包括结束）选择的数组的一部分浅拷贝到一个新数组对象。且原始数组不会被修改。
+var animals = ['ant', 'bison', 'camel', 'duck', 'elephant'];
+
+console.log(animals.slice(2));
+// expected output: Array ["camel", "duck", "elephant"]
+
+console.log(animals.slice(2, 4));
+// expected output: Array ["camel", "duck"]
+
+console.log(animals.slice(1, 5));
+// expected output: Array ["bison", "camel", "duck", "elephant"]
+-------------------------------------------
+splice(a,b,c) 添加或删除数组 a添加或删除的位置，b删除的个数，c添加的元素，先删除后添加  原数组改变，返回由被删除的元素组成的数组，会改变原数组
+
+--------------------------------------------
+sort 排序 sort(函数a) 将数字进行排序,会改变原数组，返回值是一个新的数组
+var arr = [1,2,333,22,1,4,5,20,2]
+var newArr = arr.sort(function(a,b){return a-b})   数字排序，从小到大。b-a从大到小
+var newArr = arr.sort()  按照首字符进行排序
+console.log(arr)
+---------------------------------------------
+filter 返回一个数组
+var student = [
+    {
+        name:'aaa',
+        age:26
+    },
+    {
+        name:'sss',
+        age:23
+    },
+    {
+        name:'ddd',
+        age:25
+    },
+]
+//filter(function(ele,index,array){return条件})   ele数组中每一项 index索引
+//返回一个筛选之后新的数组  不修改原数组
+var newArr = students.filter(function(ele,index){
+    return ele.age > 23
+})
+
+//find  返回一个搜索结果，不改变原数组  findIndex返回搜索结果位置
+var student = students.find(function(ele){
+    return ele.name === 'aaa'
+})
+
+// map 映射 将数组生成一个新的数组 数组个数不变
+var numArr = [1,2,3,4]
+var newNum = numArr.map(function(ele){
+    return ele*ele
+})
+输出1,4,9,16
+
+-------------------------------------------------
+var shopping = [
+    {
+    goodsName:'car',
+    price:20000,
+    number:1
+    },
+    {
+    goodsName:'plane',
+    price:200000,
+    number:2
+    }
+    {
+    goodsName:'bike',
+    price:1000,
+    number:1
+    }
+]
+
+//reduce reduce(函数，结果初始值)  通常用于一个数组变成一个数或者对象时使用
+//1.求和
+var total = shoppingCart.reduce(function(result,ele,index,array){
+    //return是结果
+    //reduce内部函数里面的ruturn 就是 reduce的返回值
+    result = result + ele.price*ele.number
+    return result
+}，0)
+--------------------------------------------------------
+foreach
+array.forEach(function(ele, index, array){
+    //do something
+}, this)
+
+array.forEach(callback[, thisArg])
+
+callback
+    为数组中每个元素执行的函数，该函数接收三个参数：
+
+    currentValue(当前值)
+        数组中正在处理的当前元素。
+    index(索引)
+        数组中正在处理的当前元素的索引。
+    array
+        forEach()方法正在操作的数组。
+
+thisArg可选
+    可选参数。当执行回调 函数时用作this的值(参考对象)。
+
+---------------------------------------
+数学对象 math
+Math.floor() 下舍
+Math.round() 四舍五入
+Math.ceil() 上进
+Math.random() 0-1的随机数 括号内不填东西
+
+var pi = 3.1415926
+var num= Math.round(pi)
+
+
+
+------------------值得类型  引用对象----------------------------
+var c = {
+    name:'zzt'
+}
+
+var d = {
+    name:'zzt'
+}
+
+var e = c    //相当于复制了一个地址给e这个变量
+e.name = 'hahaha'
+console.log(c)   结果是hahaha
+//每创建对象的时候会在内存中开辟一个新的地址 存储这个对象
+
+内置对象 日期对象
+创建一个当前时间的日期对象
+var date = new Date()
+var year = date.getFullYear()
+var month = date.getMonth()+1 //0-11
+var day = date.getDay()  //星期 0-6  0是周日 6是周六
+var hao = date.getDate()
+var hours = date.getHours()
+.getMinutes()  分钟
+.getSeconds()  秒
+.getMilliSeconds()  毫秒
+.getUTC 世界时间    date.getUTCHours()
+将get换成set就是设置
+
+格林威至时间 1970.1.1 0:0:0 到现在的毫秒数
+var times =date.getTime()  当你需要一个永远不会重复的数时使用
+
+计时器  setInterval()反复执行 多次  setTimeout()延迟执行 单次
+停止计时器clearInterval()  clearTimeout()
+计时器是异步函数 ：他干他的，不影响其他人
+同步函数：上一个没执行完，下一个不执行
+
+setInterval(time,1000)
+每过1000毫秒执行一次time函数  注意time函数后面不要带有括号
+
+--------------------------------------------------------------
+正则表达式
+RegExp  检测某个字符串或某个数字是否符合规则，这个规则就是正则表达式
+包含 var re = /abc/   包含abc的规则
+var str = 'asdbsc'
+var result = re.test(str)
+console.log(result)  结果是false
+//方法test检测字符串是否符合正则表达式的规则 符合返回true 反之 false
+//exec 检测  符合规则返回一个类数组(包含符合条件的某段字符串，和这个字符串开始的位置，被检测的字符串，分组情况) 反之null
+//想要得到 正确匹配的某段字符串的时候 使用exec方法，使用exec方法得到的返回值[0]
+//var result = re.exec(str)
+//result[0]
+规则
+[]代表一位
+[0-9] 一位数字  [a-z] 一位小写字母 [A-Z] 一位大写字母 [A-z]一位字母或下划线
+$结尾 ^开头
++(1到多) *(0到多) ?(0位或一位)  (?=a) 紧跟着a
+| 或 ()分组
+\d 任何数字  \D 任何非数字
+\w 字母数字下划线  \W 反之(比如一些符号)
+\s 一位空白符
+\数字  和第几个分组内的第一位完全一样
+[^a] 中括号里的倒三角是非的意思 非a的一位
+[\u4E00-\u9FA5] 简体中文
+//正则表达式后面紧跟一个字母，有特别的含义
+//i：不区分大小写
+//g：正则表达式全局匹配
+例如var re = /[a-z]/i
+
+var re = /[ab]/  一位a或一位b
+console.log(re.test('abc'))   结果是true
+
+var re = /[a][a]/
+大括号作用于前一位，相当于乘号，等价于 var re = /[a]{2}/
+console.log(re.test('aabac')  true
+
+var re = /[a]{0,2}/  零到二位有a
+var re = /$[A-z]{1,2}^/
+var re = /^1[6-8][0-9]{9}$/   1开头 第二位6或者7或者8 第三位到第十一位是数字，切以之为结尾
+         /^1(6|7)4$/          1开头 第二位6或者7 下一位是4，且是结尾
+
+
+
+
+-------------------------字符串-------------------------------
+split(' ')  是字符串的方法，将字符串转换成数组，转换之后数组内容是字符串类型 括号内天的东西是以什么为基准拆分数组
+join()  是数组的方法，将数组转换成字符串
+
+
+var str = 'hello'
+
+str.charAt(0)    获得h  获得字符串对应的字符
+str.charCodeAt(0)       获得对应字符的编码值
+
+str.endWith('abc')  检测字符串是否以某段字符串结尾  返回0对或者错
+    startWith('aa')           检测以什么为开始
+includes('aa') 是否包含  结果为true 或false
+indexOf('aa')  是否包含  结果为位置或-1
+
+str.silce(0,1)  字符串截取  包括开始，不包括结束  得到h
+
+toLowerCase()  toUpperCase()   字符串转换成小写，大写
+trim()  去掉字符串左右的空白符(空格) 原字符串没有被改变
+  trimLeft()  tripRight()  去掉左/右边空白
+
+match()
+  str.match(/正则表达式/)  返回值类似正则表达式exec方法
+  str.match(/[a-z]/g) 如果加上关键字g的话会全部匹配，将所有匹配的结果组成数组返回，否则只会匹配一个
+
+replace()
+  字符串替换,源字符串不会改变
+  var str1 = '2015 2016 2017'
+  srt1.replace('被替换的字符串或正则表达式','替换成的东西')
+  var str2 = str1.replace('/to/g' 'To')
+
+search()
+  返回正确查找的开始位置 否则返回-1  可以填写正则表达式
+
+trim()
+  删除首尾空格
+练习  找出一段文字中的温度数字
+var str1='12阿萨德群胜多负少23℃，附近考虑-2℃'
+    var str2=str1.match(/-?[0-9]{1,2}[℃]/g)
+    console.log(str2)
+
+----------------数字对象------------------------
+var num = 10
+String(a)  把a变成字符串
+a.toString()
+
+isNaN(a) 检测一个数是不是NaN,返回真假
+  var num = NaN
+  console.log(isNaN(num))
+
+a.toFixed(2)  将数字a转化为保留2位小数的字符串四舍五入
+
+--------------------------------------------------
+dom
+获取元素
+document.getElementById('btn')  得到一个html标签
+document.getElementsByClassName('btn')[0]  得到一个html标签  ie9
+document.getElementByTagName('标签名') 获取的是一个类数组
+document.querySelector('.css选择器') 选择匹配的第一个元素  ie8
+document.querySelectorAll('.css选择器') 获得一个类数组  ie8
+上述所有document都可以换成dom元素
+
+
+绑定事件
+原生绑定事件 只能是原生dom对象才能绑定
+dom元素.style 获取该元素的行内样式对象
+    修改该属性相当于添加行内样式
+btn.onclick = function(){
+    document.getElementsByClassName('box')[0].style.backgroundColor = 'red'
+}
+
+获取文本
+.innerText 获取标签内部文本
+事件中的this指的就是触发事件的元素
+
+阻止a的默认跳转
+href内 javascript:;  或 javascript:void(0);
+
+给多个a添加事件
+var aArr = document.querySelectorAll('ul li a')
+for(var i = 0;i<aArr.length;i++){
+
+  aArr[i].index = i
+  aArr[i].onclick = function(event){
+      //
+      var left = this.index*-500
+      var left = (this.innerText -1)*-500
+      document.querySelector('.pic').style.marginLeft = left + 'px'
+
+      for(var j=0;j<aArr.length;j++){
+        if(this.index!==j){
+          aArr[j].className = ''
+        }
+      }
+      this.className = 'active'
+  }
+}
+
+获得原生对象属性  .getAttribute('属性名')
+修改原生对象属性  .setAttribute('属性名','属性值')
+例如，可以在a标签内添加自定义属性 data-index='0'  然后再获取属性，可以获得想要的值
+
+添加删除修改 class
+aArr[j].className = ''  空即为删除，些内容即为添加/修改
+
+
+三目运算符   条件？条件成立:条件不成立   使用 当一个值有两种情况需要判断时  注意成立不成立都是必填项
+oldClass === ''?className:oldClass + '' + className
+var newName=old===''?nw:old +' '+nw
+三目运算后面默认的是返回值
+
+var ele = docunment.createElement('div')  创建的本质是一个html标签对象
+操作
+  ele.style  获得元素的行内样式对象
+  ele.className  获取或设置class名
+  ele.id  获取或设置id名
+  ele.innerText 获取或设置dom元素内的文本内容
+  ele.innerHTML 设置标签内部内容，包括文字和内容，但是赋值的值必须是字符串
+  ele.value 获得input的值
+  操作属性 函数:一次只能操作一个属性
+    ele.setAttribute('属性名','值')   可以赋class名
+    ele.getAttribute('属性名')
+    ele.removeAttribute('属性名')
+
+注：带括号的是方法，括号里填参数。不带括号的是属性，赋值方法是 = 值
+
+事件
+ele.onclick = function(){}
+
+创建 添加 删除 清空 复制(克隆)
+
+创建
+var ele = document.createElement('div')  创建一个标签
+ele.getAttribute('class','box1')
+ele.innerText = '123'
+
+添加 a.appendChild(b)  把b填到a里当最后一个
+document.querySelector('.box').appendChild(ele)
+document.querySelector('.box').innerHTML = ('<span></span>')
+
+a.insertBefore(添加的元素b,添加到谁的前面元素c)
+如果c是undefined，直接添加到最后，相当于appendChild
+ul.insertBefore(li,ul.querySelect('li')) 把li添加到ul的最上面
+
+删除
+ele.parentNode 查找父级
+ele.removeChild(ele1)  父级ele中删除子级ele1
+
+获取标签名
+ele.tagName  得到的标签名是大写的
+
+
+
+js标签中声明 事件函数 在html标签中绑定事件
+  <button onclick="test()"></button>
+function test(){
+  alert(1)
+}
+
+添加监听事件来绑定事件  优点:不会覆盖之前的事件
+document.querySelector('.btn').addEventListener('click',function(){
+  内容
+},boolean)
+
+boolean 选填，事件冒泡
+各种事件  onblur onfocus onkeyup onkeypress onkeydown onmouseenter onmouseleave onmousemove onmousedown onmouseup onclick ondblclick
+
+onchange:  checkbox radio select----绑定onchange事件
+
+表单元素的 dom 操作
+表单元素的onchange事件指的是内容发生改变的时候触发
+获得选中状态
+jquery做法  .prop('checked') 获取选中状态    .prop('checked',布尔值) 设置
+原生做法  基本上表单元素的所有属性都可以直接获取或修改
+document.querySelector('#all').onchange = function(){
+    var state = this.checked
+    var allGoods = document.querySelectorAll('.goods')
+    for(var i = 0;i < allGoods.length,i++){
+        allGoods[i].checked = state
+    }
+}
+
+
+
+
+BOM
+浏览器对象模型
+全局作用域 window 下
+所有在全局作用域下声明的变量或函数都是属于 window 对象下的属性或方法
+var user = {
+  name:'zzt',
+  say:function(){
+      console.log('hello')
+  }
+}
+
+访问window对象下的属性或方法时可以省略window
+window  全局
+函数声明的时候形参相当于在函数内部声明变量  函数调用的时候实参相当于给变量赋值
+
+window 下常用方法
+alert()  setInterval() clearInterval() setTimeout() clearTimeout()
+open('url',窗口的名字) 打开一个新窗口  给窗口命名，方便以后操作，选填项
+var ohterWindow = open('http://www.baidu.com','baidu')  返回窗口对象
+close() 关闭当前窗口
+otherWindow.close() 关闭其他窗口
+
+弹窗  alert()
+      confirm('提示信息')  点击确认 返回true 取消返回false
+      prompt('提示信息')  点击确认返回输入内容 取消返回null
+
+window.print() 打印当前页内容
+
+window 属性
+location 属性 也是一个对象  输入的url进行控制  可用于跳转页面，获取页面的某个信息
+
+使用 location 对象的 href 属性 实现页面的跳转
+ele.onclick = function(){
+  location.href = 'http://baidu.com'
+  //location.search  从问号开始的查询部分
+}
+
+location.assign(url路径)  产生历史记录
+location.replace(url路径) 不会产生历史记录
+location.reload()  重新加载页面
+
+history对象
+.length 历史记录长度
+.back() 加载history列表中前一个url
+screen  显示器相关信息
+navigator  浏览器的相关信息
+
+
+//函数相关进阶
+函数内部的 arguments  函数实参的集合(类数组)
+function test(){
+  arguments[0]
+  console.log(arguments)
+}
+test(3,4)
+
+function add() {
+            var num = 0
+            for (let i = 0; i < arguments.length; i++) {
+                if (!isNaN(arguments[i] * 1)) {
+                    num += arguments[i] * 1
+                }
+            }
+            console.log(num);
+        }
+        add(1, 2, 4, '1', 'a', "2")
+
+
+
+匿名函数 立即执行  当我们需要将变量操作封装到作用域内，不想暴露在全局作用域下
+(function(){
+    var a = 10 
+    console.log(a)
+    })()
+
+window.onload = function(){文档加载完毕执行}
+
+递归函数 函数内部调用函数本身的函数
+
+回调函数 某一个函数被当做参数这个函数就叫做回调函数
