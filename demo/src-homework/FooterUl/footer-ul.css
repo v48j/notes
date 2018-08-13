@@ -1,0 +1,13 @@
+.f-all-ul {
+  width: 600px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+}
+.f-all-ul ul {
+  list-style: none;
+}
+.f-all-ul a {
+  color: #000;
+  text-decoration: none;
+}

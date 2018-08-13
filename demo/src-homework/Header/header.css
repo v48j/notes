@@ -1,0 +1,9 @@
+header {
+  display: flex;
+  height: 50px;
+  width: 100%;
+  background-color: #000;
+  justify-content: space-between;
+  position: fixed;
+  top: 0;
+}

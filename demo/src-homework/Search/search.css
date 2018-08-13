@@ -1,0 +1,7 @@
+.search {
+  width: 100px;
+  line-height: 50px;
+}
+.search > a {
+  color: #fff;
+}
