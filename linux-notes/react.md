@@ -132,3 +132,135 @@ class Header extends Component {
 
 export default Header
 ```
+
+### src 下文件夹格式
+
+- 文件夹
+
+  1.asset/ 存放公共 css 以及一些常量 内容：global.css
+
+  2.component/ 存放展示组件 js
+
+  3.containers/ 存放容器组件 内容 例如 ：MainContainer.js
+
+  4.reducers/ 存放初始化数据，改变数据的 action 内容 index.js,xxx.js
+
+  5.store/ 存放所有数据，讲所有数据汇总 内容 index.js
+
+  6.selectors/ 存放获得衍生数据的方法 内容 index.js
+
+- 数据流程
+
+  1.获取数据：reducers->store->containers->component
+
+  2.修改数据：component->reducers
+
+  > 1.reducers 内存有若干个 state，最终汇总在 index.js 下,输出，store 接收
+
+  > 2.store 引入 creatStore,将引入的数据生成 store，输出，容器组件接收
+
+  > 3.容器组件通过 mapStateToProps 方法.将收到的 store 转化成自己的 props，并传给展示组件。注意，容器组件通常是无 state，直接是一个方法输出展示组件
+
+  > 4.展示组件。接收到父级容器组件传来的 store，存在自己的 props 中，返回的 DOM 节点可能需要这些数据或者衍生数据，这个时候需要调用 selectors 中的方法来获得衍生数据，不要再展示组件中写函数。
+
+  > 5.改变数据。展示组件中可能点击按钮会修改 store，但 store 是只读的，只有唯一方法，就是触发预留在 reducers 中的 action 来改变 store。例如，点击按钮后，执行 store.dispatch()方法去触发 action，改变 store
+
+### 文件格式，写法
+
+#### reducers(若干组件合并到 index 中)
+
+- 组件 例如：filter.js
+
+```js
+import shortId from "shortid"
+const inistialState = []
+const todos = (state = inistialState, action) => {
+  switch (action.type) {
+    case "ADD_LIST":
+      return [...state, { id: shortId(), todotext: action.text, finish: false }]
+    case "CHANGE_FINISH":
+      return state.map(ele => {
+        if (ele.id === action.id) {
+          ele.finish = !ele.finish
+        }
+        return ele
+      })
+    default:
+      return state
+  }
+}
+export default todos
+//其中包括增加新的数据和更新数据
+```
+
+- index.js
+
+```js
+import { combineReducers } from "redux"
+import filter from "./filter"
+import todos from "./todos"
+
+const rootReducer = combineReducers({ filter, todos })
+export default rootReducer
+```
+
+#### store(仅一个 index)
+
+```js
+import { createStore, applyMiddleware } from "redux"
+import rootReducer from "../reducers"
+import logger from "redux-logger"
+
+const store = createStore(rootReducer, applyMiddleware(logger))
+export default store
+//注：applyMiddleware(logger)是一个可以显示store变化的插件，可有可无，方便开发时分析
+```
+
+#### containers(容器组件文件夹，里面不需要 index)
+
+```js
+import React from "react"
+import { connect } from "react-redux"
+import Main from "../component/Main"
+const MainContainer = props => <Main {...props} />
+const mapStateToProps = state => ({
+  filter: state.filter,
+  todos: state.todos
+})
+export default connect(mapStateToProps)(MainContainer)
+//将store通过props传给展示组件
+```
+
+#### component(展示组件,修改 store)
+
+```js
+import React, { Component } from "react"
+import styled from "styled-components"
+import store from "../store/index"
+import { getLeftNum } from "../selectors"
+class Menu extends Component {
+  setfilter = type => {
+    store.dispatch({
+      type: type
+      xx:xxx
+    })
+  }
+  render() {
+    const { todos } = this.props
+    console.log(todos)
+
+    const num = getLeftNum(todos)
+    return (
+      <Wrap>
+        <span>{num} items left</span>
+      </Wrap>
+    )
+  }
+}
+
+export default Menu
+const Wrap = styled.div`
+  display: flex;
+`
+//注：styled包是可以把样式写在js中，本例中getLeftNum方法引入新方法来获得衍生数据。store.dispatch方法用于修改store，这个函数必须有一个参数type。表示发送的action类型，由reducers中的组件来接收action.type。
+```

@@ -1,0 +1,14 @@
+初始化netsh winsock reset
+
+安装包npm i -g serve   
+      npm i -g json-serve
+
+npm i -g serve   开启服务器
+serve . -p 5000  将所在目录放在端口local：5000 下
+-----------------------
+json-server --version  开启json
+json-server --watch db.json -p 3008  将文件放在端口下
+-----------------------
+npm install -g i5ting_toc  开启
+i5ting_toc -f jsStr.md     将文件夹下的md转化为html
+

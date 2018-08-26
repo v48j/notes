@@ -1,0 +1,151 @@
+json-server --version
+json-server --watch db.json -p 3008
+
+
+Ajax 是一种无需重新加载整个网页的情况下，能够更新部分网页的技术
+异步和同步
+jq中的ajax
+$.ajax({
+    //服务器储存数据的地址  get请求接受参数
+    url:'https://cnodejs.org/api/v1/topics?tab=ask&page=2'
+    //请求的方法 get post，默认get，注意要大学
+    type:'GET'
+    //解决跨域问题，是jq的解决方法,只能解决get方法，不能解决post方法
+    dataType:'jasonp'
+    //后台设置了允许跨域之后前台设置
+    //crossDomain：true
+    //请求成功之后执行的函数 里面的参数 data是请求的结果,data是什么样子由后台决定
+    //data.data 是我们需要的数据
+    success:function(data){
+        console.log(data.data)
+    },
+    //err错误信息
+    error:function(err){
+        console.log(err)
+    }
+})
+
+另一种写法
+$.ajax({
+        url: 'https://cnodejs.org/api/v1/topics',
+        type: 'GET',
+        //data:{内容}    向后台发送数据，通常是一个对象
+        data:{accesstoken:'9948d556-1825-416f-934f-b3ce046403e3'}
+    })
+    .done(function(data) {
+        console.log(data);
+    })
+    .fail(function(err) {
+        console.log("error");
+    })
+
+
+上传数据
+$.ajax({
+      url: 'http://localhost:3008/comments',
+      type: 'POST',
+      data: {body: comment,aa:val}
+    })
+    .done(function() {
+      console.log("success");
+    })
+    .fail(function() {
+      console.log("error");
+    })
+
+json  格式
+对象的属性名用双引号包裹，属性值是字符串的话也用双引号，属性之间用逗号，最后一项没有逗号
+
+删除数据
+$.ajax({
+      url: 'http://localhost:3008/comments/id',
+      type: 'DELETE'
+    })
+    .done(function() {
+      console.log("success");
+    })
+    .fail(function() {
+      console.log("error");
+    })
+----------------------------------------------------------------------------
+将token的信息 存储到本地浏览器
+用户名和头像以及用户id全部存到本地浏览器
+h5的本地储存 localStorage  sessionStorage  cookie
+sessionStorage  其实就是一个对象
+
+f12下的 application 可以查询到本地存储的信息
+var token = 'asd' (后台发送得到)
+
+sessionStorage 方法存储信息,关闭页面就会消失
+sessionStorage.token = token
+sessionStorage.user_name = 'zzt'
+清除sessionStorage 存储  .removeItem('属性名')
+  sessionStorage.removeItem('token')
+删除所有数据
+  sessionStorage.clear()
+获取sessionStorage某些数据
+  var data = sessionStorage.getItem('key')
+保存数据到sessionStorage
+  sessionStorage.setItem('key','value')
+
+
+localStorage 方法存储信息，页面关闭不会消失
+localStorage.token = token
+localStorage.removeItem('token')
+
+原生ajax
+//1.想要发送ajax请求必须创建 XMLHttpRequest 对象
+var xml = new XMLHttpRequest()
+//2.发请求使用该对象的 open() 方法创建一个请求并使用 send 发送请求
+//open(a,b,c) a:发送请求的类型(GET,POST,DELETE) b:请求的地址 c:同步还是异步，绝大多数情况是异步，值为true
+xml.open('GET','http://xxx',true)
+xml.setRequestHeader("Content-type","application/json") //请求头仅限于POST类型
+xml.send(str)   //str 仅限于 POST 请求
+//3.接收请求后的结果 使用该对象的 onreadystatechange 事件监听请求过程
+xml.onreadystatechange = function(){
+    //请求成功标志  xml.readyState状态  xml.status状态码
+    if(xml.readyState == 4 && xml.status == 200){
+    //状态为4：请求已完成，且响应已就绪 状态码200
+    //xml.responseText 是成功之后返回的数据是json串类型(字符串)
+    //我们要使用 json 对象的 parse 方法转化为对象形式
+    //对应的 json 对象的 stringify 方法可以将对象转化为 json 字符串
+    console.log(JSON.parse(xml.responseText))
+    //JSON.parse(xml.responseText)就是返回来的数据
+    console.log(JSON.stringify(xxx))
+
+    }
+}
+
+axios库方法
+获得一个   地址去掉/id获得所有
+axios.get('地址/id')
+.then(function(res){
+
+})
+.catch(function(err){
+
+})
+
+axios.post('地址',{body:'123456'})
+.then(function(res){
+
+})
+.catch(function(err){
+
+})
+改
+axios.put('地址/id',{body:'123456'})
+.then(function(res){
+
+})
+.catch(function(err){
+
+})
+删
+axios.delete('地址/id')
+.then(function(res){
+
+})
+.catch(function(err){
+
+})
