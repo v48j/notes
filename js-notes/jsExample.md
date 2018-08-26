@@ -52,6 +52,68 @@ css 样式
 
 ### 改变 input type='checkbox' 样式
 
+```html
+<div class="box">
+    <input id='test' type="checkbox">
+    <label for="test" class="test">
+      测试按钮
+    </label>
+  </div>
+```
+
+```css
+.box {
+  position: relative;
+  padding-left: 30px;
+}
+
+.box input[type="checkbox"] {
+  position: absolute;
+  z-index: -1;
+  opacity: 0;
+}
+
+.test::before {
+  left: 0;
+  content: "";
+  display: block;
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  background-color: #ccc;
+  top: 0;
+}
+
+.test::after {
+  top: 0;
+  left: 0;
+  content: "";
+  display: block;
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+
+.box input:checked + .test::before {
+  background-color: #00b3d4;
+}
+
+.box input:checked + .test::after {
+  background-image: url("./img/勾.png");
+}
+/* 注：before是背景颜色，after是背景图片，有些时候可以合二为一，只用一个 */
+```
+
 ### 改变 select 下拉箭头样式
 
 ### 无法选中(双击无法变蓝)
+
+### input checkbox 默认选中
+
+```html
+<input type="checkbox" checked="true">
+```

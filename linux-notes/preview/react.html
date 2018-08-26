@@ -1,0 +1,347 @@
+<html>
+  <head>
+	  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>i5ting_ztree_toc:react</title>
+		<link href="toc/style/github-bf51422f4bb36427d391e4b75a1daa083c2d840e.css" media="all" rel="stylesheet" type="text/css"/>
+		<link href="toc/style/github2-d731afd4f624c99a4b19ad69f3083cd6d02b81d5.css" media="all" rel="stylesheet" type="text/css"/>
+		<link href="toc/css/zTreeStyle/zTreeStyle.css" media="all" rel="stylesheet" type="text/css"/>
+	  <style>
+		pre {
+		    counter-reset: line-numbering;
+		    border: solid 1px #d9d9d9;
+		    border-radius: 0;
+		    background: #fff;
+		    padding: 0;
+		    line-height: 23px;
+		    margin-bottom: 30px;
+		    white-space: pre;
+		    overflow-x: auto;
+		    word-break: inherit;
+		    word-wrap: inherit;
+		}
+
+		pre a::before {
+		  content: counter(line-numbering);
+		  counter-increment: line-numbering;
+		  padding-right: 1em; /* space after numbers */
+		  width: 25px;
+		  text-align: right;
+		  opacity: 0.7;
+		  display: inline-block;
+		  color: #aaa;
+		  background: #eee;
+		  margin-right: 16px;
+		  padding: 2px 10px;
+		  font-size: 13px;
+		  -webkit-touch-callout: none;
+		  -webkit-user-select: none;
+		  -khtml-user-select: none;
+		  -moz-user-select: none;
+		  -ms-user-select: none;
+		  user-select: none;
+		}
+
+		pre a:first-of-type::before {
+		  padding-top: 10px;
+		}
+
+		pre a:last-of-type::before {
+		  padding-bottom: 10px;
+		}
+
+		pre a:only-of-type::before {
+		  padding: 10px;
+		}
+
+		.highlight { background-color: #ffffcc } /* RIGHT */
+		</style>
+  </head>
+  <body>
+	  <div>
+				<div style='width:25%;'>
+						<ul id="tree" class="ztree" style='width:100%'>
+
+						</ul>
+				</div>
+        <div id='readme' style='width:70%;margin-left:20%;'>
+          	<article class='markdown-body'>
+            	<h3 id="-react-">创建 react 开发环境</h3>
+<ul>
+<li><p>安装：npm i -g create-react-app</p>
+</li>
+<li><p>创建文件夹：<code>create-react-app react-hello</code>，里面装的是 react 的开发环境</p>
+</li>
+<li><p>启动 在文件夹下执行<code>npm start</code></p>
+</li>
+</ul>
+<h3 id="-1-">实例 1 给组件添加点击事件</h3>
+<ul>
+<li><p>知识点</p>
+<p>1.接受父元素传递来的 props</p>
+<p>2.设定默认样式</p>
+<p>3.事件的绑定</p>
+<p>4.类</p>
+</li>
+<li><p>注意点</p>
+<p>1.给元素写行内样式 style 时，style 内写的是对象形式，因此有两个大括号</p>
+<p>2.接受到的 props 是只读的，不可改变</p>
+<p>3.注意 this 的指向，本例中 this 指的是实例化的模型 button</p>
+<p>4.添加的函数，名字后面不能有括号，否则会立即执行</p>
+<p>5.ruturn 的结果只能有一个父元素包裹多个子元素</p>
+</li>
+</ul>
+<pre><code class="lang-js">//子元素
+import React, { Component } from &quot;react&quot;
+import PropTypes from &quot;prop-types&quot; //需要规定默认的值的类型时引入
+import &quot;./button.css&quot;
+
+class Button extends Component {
+  handleClick() {
+    console.log(1)
+  }
+  render() {
+    // 设置 props 的默认值
+    // 方案 1
+    // const defaultProps = {text: &#39;按钮&#39;, color: &#39;#000&#39;}
+    // const { color, text } = { ...defaultProps, ...this.props }
+    // 方案 2
+    const { text, color, fn } = this.props
+    return (
+      &lt;button className=&quot;btn&quot; onClick={fn} style={{ color: color }}&gt;
+        {text}
+      &lt;/button&gt;
+    )
+  }
+}
+
+export default Button
+
+Button.propTypes = {
+  text: PropTypes.string,
+  color: PropTypes.string,
+  click: PropTypes.func
+}
+Button.defaultProps = {
+  text: &quot;按钮&quot;,
+  color: &quot;#000&quot;
+}
+
+//父元素---------------------------------------------------------------
+import React, { Component } from &#39;react&#39;
+import &#39;./header.css&#39;
+import Button from &#39;../Button/Button&#39;
+class Header extends Component {
+  singIn() {
+    alert(&#39;登录&#39;)
+  }
+  logoClick(a) {
+    console.log(a)
+  }
+  // logoClick 想要作为点击事件的函数， 并且这个函数需要传参。
+  // 就不能直接将 img 的 onClick = {this.logoClick(1)},相当于 onClick 被赋值成一个值了，并不是函数了
+  // 我们将调用 logoClick 的函数调用 放在一个匿名函数内 赋值给 img 的 onClick 属性，这样这个匿名函数就成为了事件函数，需要注意的是我们要在匿名函数内调用 Header 类的 logoClick 方法需使用 this.logoClick ,所以我们要将匿名函数写成 es6 的箭头函数，以为箭头函数 this 声明的时候就绑定了。如果使用普通函数找不到 this。
+  render() {
+    return (
+      &lt;div&gt;
+        &lt;header&gt;
+          &lt;div className=&quot;logo&quot;&gt;
+            &lt;img
+              src=&quot;http://image.morethan.cc/template/index/default/css/images/Morethan_logo.png&quot;
+              alt=&quot;&quot;
+              onClick={() =&gt; {
+                this.logoClick(1)
+              }}
+            /&gt;
+          &lt;/div&gt;
+          &lt;div&gt;
+            {/* 父组件如何向子组件传递 props  在组件标签内部传递当做组件的属性传递*/}
+            &lt;Button text=&quot;登录&quot; color=&quot;red&quot; fn={this.singIn} /&gt;
+            &lt;Button text=&quot;注册&quot; color=&quot;blue&quot; /&gt;
+            &lt;Button /&gt;
+          &lt;/div&gt;
+        &lt;/header&gt;
+      &lt;/div&gt;
+    )
+  }
+}
+
+export default Header
+</code></pre>
+<ul>
+<li><p>关于类和类的继承</p>
+<p>1.组件里的类，本质是一个构造函数，通过继承的形式写好，最终 return 出一个实例化模型</p>
+<p>2.类的内部全部都是方法，有一个 render()方法和若干个自己定义的私有方法，<strong>这些私有方法建议用箭头函数写</strong>，因此函数内的 this 就是指向实例化模型，否则用普通方法写出的函数，this 指向目标是谁调用指向谁(window)</p>
+</li>
+</ul>
+<pre><code class="lang-js">class Header extends Component {
+  singIn() {
+    alert(&quot;登录&quot;)
+  }
+  logoClick(a) {
+    console.log(a)
+  }
+
+  render() {
+    const { a, b, c } = this.props
+    return &lt;header /&gt;
+  }
+}
+
+export default Header
+</code></pre>
+<h3 id="src-">src 下文件夹格式</h3>
+<ul>
+<li><p>文件夹</p>
+<p>1.asset/ 存放公共 css 以及一些常量 内容：global.css</p>
+<p>2.component/ 存放展示组件 js</p>
+<p>3.containers/ 存放容器组件 内容 例如 ：MainContainer.js</p>
+<p>4.reducers/ 存放初始化数据，改变数据的 action 内容 index.js,xxx.js</p>
+<p>5.store/ 存放所有数据，讲所有数据汇总 内容 index.js</p>
+<p>6.selectors/ 存放获得衍生数据的方法 内容 index.js</p>
+</li>
+<li><p>数据流程</p>
+<p>1.获取数据：reducers-&gt;store-&gt;containers-&gt;component</p>
+<p>2.修改数据：component-&gt;reducers</p>
+<blockquote>
+<p>1.reducers 内存有若干个 state，最终汇总在 index.js 下,输出，store 接收</p>
+</blockquote>
+<blockquote>
+<p>2.store 引入 creatStore,将引入的数据生成 store，输出，容器组件接收</p>
+</blockquote>
+<blockquote>
+<p>3.容器组件通过 mapStateToProps 方法.将收到的 store 转化成自己的 props，并传给展示组件。注意，容器组件通常是无 state，直接是一个方法输出展示组件</p>
+</blockquote>
+<blockquote>
+<p>4.展示组件。接收到父级容器组件传来的 store，存在自己的 props 中，返回的 DOM 节点可能需要这些数据或者衍生数据，这个时候需要调用 selectors 中的方法来获得衍生数据，不要再展示组件中写函数。</p>
+</blockquote>
+<blockquote>
+<p>5.改变数据。展示组件中可能点击按钮会修改 store，但 store 是只读的，只有唯一方法，就是触发预留在 reducers 中的 action 来改变 store。例如，点击按钮后，执行 store.dispatch()方法去触发 action，改变 store</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="-">文件格式，写法</h3>
+<h4 id="reducers-index-">reducers(若干组件合并到 index 中)</h4>
+<ul>
+<li>组件 例如：filter.js</li>
+</ul>
+<pre><code class="lang-js">import shortId from &quot;shortid&quot;
+const inistialState = []
+const todos = (state = inistialState, action) =&gt; {
+  switch (action.type) {
+    case &quot;ADD_LIST&quot;:
+      return [...state, { id: shortId(), todotext: action.text, finish: false }]
+    case &quot;CHANGE_FINISH&quot;:
+      return state.map(ele =&gt; {
+        if (ele.id === action.id) {
+          ele.finish = !ele.finish
+        }
+        return ele
+      })
+    default:
+      return state
+  }
+}
+export default todos
+//其中包括增加新的数据和更新数据
+</code></pre>
+<ul>
+<li>index.js</li>
+</ul>
+<pre><code class="lang-js">import { combineReducers } from &quot;redux&quot;
+import filter from &quot;./filter&quot;
+import todos from &quot;./todos&quot;
+
+const rootReducer = combineReducers({ filter, todos })
+export default rootReducer
+//combinReducers方法允许合并多个state
+</code></pre>
+<h4 id="store-index-">store(仅一个 index)</h4>
+<pre><code class="lang-js">import { createStore, applyMiddleware } from &quot;redux&quot;
+import rootReducer from &quot;../reducers&quot;
+import logger from &quot;redux-logger&quot;
+
+const store = createStore(rootReducer, applyMiddleware(logger))
+export default store
+//注：applyMiddleware(logger)是一个可以显示store变化的插件，可有可无，方便开发时分析
+</code></pre>
+<h4 id="containers-index-">containers(容器组件文件夹，里面不需要 index)</h4>
+<pre><code class="lang-js">import React from &quot;react&quot;
+import { connect } from &quot;react-redux&quot;
+import Main from &quot;../component/Main&quot;
+const MainContainer = props =&gt; &lt;Main {...props} /&gt;
+const mapStateToProps = state =&gt; ({
+  filter: state.filter,
+  todos: state.todos
+})
+export default connect(mapStateToProps)(MainContainer)
+//将store通过props传给展示组件
+</code></pre>
+<h4 id="component-store-">component(展示组件,修改 store)</h4>
+<pre><code class="lang-js">import React, { Component } from &quot;react&quot;
+import styled from &quot;styled-components&quot;
+import store from &quot;../store/index&quot;
+import { getLeftNum } from &quot;../selectors&quot;
+class Menu extends Component {
+  setfilter = type =&gt; {
+    store.dispatch({
+      type: type
+      xx:xxx
+    })
+  }
+  render() {
+    const { todos } = this.props
+    console.log(todos)
+
+    const num = getLeftNum(todos)
+    return (
+      &lt;Wrap&gt;
+        &lt;span&gt;{num} items left&lt;/span&gt;
+      &lt;/Wrap&gt;
+    )
+  }
+}
+
+export default Menu
+const Wrap = styled.div`
+  display: flex;
+`
+//注：styled包是可以把样式写在js中，本例中getLeftNum方法引入新方法来获得衍生数据。store.dispatch方法用于修改store，这个函数必须有一个参数type。表示发送的action类型，由reducers中的组件来接收action.type。
+</code></pre>
+<h4 id="selectors">selectors</h4>
+<pre><code class="lang-js">export const getcurrentTodos = (todos, filter) =&gt; {
+  switch (filter) {
+    case &quot;All&quot;:
+      return todos
+    case &quot;Active&quot;:
+      return todos.filter(ele =&gt; !ele.finish)
+    case &quot;Complete&quot;:
+      return todos.filter(ele =&gt; ele.finish)
+    default:
+      break
+  }
+}
+
+export const getLeftNum = todos =&gt; todos.filter(ele =&gt; !ele.finish).length
+</code></pre>
+
+          	</article>
+        </div>
+		</div>
+  </body>
+</html>
+<script type="text/javascript" src="toc/js/jquery-1.4.4.min.js"></script>
+<script type="text/javascript" src="toc/js/jquery.ztree.all-3.5.min.js"></script>
+<script type="text/javascript" src="toc/js/ztree_toc.js"></script>
+<script type="text/javascript" src="toc_conf.js"></script>
+
+<SCRIPT type="text/javascript" >
+<!--
+$(document).ready(function(){
+    var css_conf = eval(markdown_panel_style);
+    $('#readme').css(css_conf)
+    
+    var conf = eval(jquery_ztree_toc_opts);
+		$('#tree').ztree_toc(conf);
+});
+//-->
+</SCRIPT>

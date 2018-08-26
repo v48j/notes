@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <link rel="stylesheet" href="./css/bootstrap.min.css">
+  <style>
+    .box {
+      position: relative;
+      padding-left: 30px;
+    }
+
+    .box input[type=checkbox] {
+      position: absolute;
+      z-index: -1;
+      opacity: 0;
+    }
+
+    .test::before {
+      left: 0;
+      content: '';
+      display: block;
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border-radius: 4px;
+      background-color: #ccc;
+      top: 0;
+    }
+
+    .test::after {
+      top: 0;
+      left: 0;
+      content: '';
+      display: block;
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-size: cover;
+    }
+
+    .box input:checked+.test::before {
+      background-color: #00b3d4;
+    }
+
+    .box input:checked+.test::after {
+      background-image: url('./img/勾.png');
+    }
+  </style>
+</head>
+
+<body>
+
+
+  <div class="box">
+    <input id='test' type="checkbox">
+    <label for="test" class="test">
+      测试按钮
+    </label>
+  </div>
+  <script>
+    // 前端 ui 库    bootstrap 
+    document.querySelector('#test').onchange = function () {
+      console.log(this.checked)
+    }
+  </script>
+</body>
+
+</html>

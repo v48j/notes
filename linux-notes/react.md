@@ -202,6 +202,7 @@ import todos from "./todos"
 
 const rootReducer = combineReducers({ filter, todos })
 export default rootReducer
+//combinReducers方法允许合并多个state
 ```
 
 #### store(仅一个 index)
@@ -263,4 +264,23 @@ const Wrap = styled.div`
   display: flex;
 `
 //注：styled包是可以把样式写在js中，本例中getLeftNum方法引入新方法来获得衍生数据。store.dispatch方法用于修改store，这个函数必须有一个参数type。表示发送的action类型，由reducers中的组件来接收action.type。
+```
+
+#### selectors
+
+```js
+export const getcurrentTodos = (todos, filter) => {
+  switch (filter) {
+    case "All":
+      return todos
+    case "Active":
+      return todos.filter(ele => !ele.finish)
+    case "Complete":
+      return todos.filter(ele => ele.finish)
+    default:
+      break
+  }
+}
+
+export const getLeftNum = todos => todos.filter(ele => !ele.finish).length
 ```
