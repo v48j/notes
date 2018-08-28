@@ -1,4 +1,4 @@
-### 创建 react 开发环境
+# 创建 react 开发环境
 
 - 安装：npm i -g create-react-app
 
@@ -6,7 +6,7 @@
 
 - 启动 在文件夹下执行`npm start`
 
-### 实例 1 给组件添加点击事件
+## 实例 1 给组件添加点击事件
 
 - 知识点
 
@@ -133,13 +133,17 @@ class Header extends Component {
 export default Header
 ```
 
-### src 下文件夹格式
+# redux 安装
+
+安装包 redux react-redux redux-logger
+
+## redux src 下文件夹格式
 
 - 文件夹
 
   1.asset/ 存放公共 css 以及一些常量 内容：global.css
 
-  2.component/ 存放展示组件 js
+  2.components/ 存放展示组件 js
 
   3.containers/ 存放容器组件 内容 例如 ：MainContainer.js
 
@@ -148,6 +152,10 @@ export default Header
   5.store/ 存放所有数据，讲所有数据汇总 内容 index.js
 
   6.selectors/ 存放获得衍生数据的方法 内容 index.js
+
+  7.constants/ 存放字符串常量的文件给 action 使用，只有一个文件 actionType.js
+
+  8.actions/ 存放 action 构造函数（即发送 dispatch 给 reducers 的函数），通常只有一个 index 文件
 
 - 数据流程
 
@@ -165,19 +173,97 @@ export default Header
 
   > 5.改变数据。展示组件中可能点击按钮会修改 store，但 store 是只读的，只有唯一方法，就是触发预留在 reducers 中的 action 来改变 store。例如，点击按钮后，执行 store.dispatch()方法去触发 action，改变 store
 
-### 文件格式，写法
+## 文件格式，写法
 
-#### reducers(若干组件合并到 index 中)
+### index 写法
+
+```js
+import React from "react"
+import ReactDOM from "react-dom"
+import App from "./component/App/App"
+import registerServiceWorker from "./registerServiceWorker"
+import { Provider } from "react-redux"
+import store from "./store"
+ReactDOM.render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById("root")
+)
+registerServiceWorker()
+//注意要用Provider包裹
+```
+
+### App 写法 初始化发送 axios 请求获取数据
+
+```js
+import React, { Component } from "react"
+import "../../assets/global.css"
+import MainContainer from "../../containers/MainContainer"
+import { connect } from "react-redux"
+import { getTodo } from "../../actions/index"
+class App extends Component {
+  componentDidMount = () => {
+    this.props.getTodo()
+  }
+  render() {
+    return (
+      <div>
+        <MainContainer />
+      </div>
+    )
+  }
+}
+
+export default connect(
+  null,
+  { getTodo }
+)(App)
+//注：connect 两个函数，第一个函数两个参数，都是对象。第一个对象参数是将state对象转为
+//props给组件，第二个对象是把该对象用dispatch包装，然后给组件。用dispatch包裹的好处
+//直接调用就可以发送dispatch请求来改变store，但因此要引入connect
+//本例中 getTodo就是一个action构造函数，作用是发送axios请求获取数据，并且改变store
+```
+
+### action 下 index
+
+```js
+import { CHANGE_FINISH, ADD_LIST, GET_TODO } from "../constants/actionType.js"
+import axios from "axios"
+
+export const setFilter = type => ({
+  type: type
+})
+export const addTodo = text => dispatch => {
+  const uri = "http://localhost:3008/todolist"
+  axios
+    .post(uri, { todotext: text, finish: false })
+    .then(res => {
+      dispatch({
+        type: ADD_LIST,
+        newTodo: res.data
+      })
+    })
+    .catch(() => {
+      console.log("添加失败")
+    })
+}
+//写了两个action构造函数，一个是发送axios请求的，另一个是普通的。想让action构造函数
+//能发送axios请求，需要下载包redux
+```
+
+### reducers(若干组件合并到 index 中)
 
 - 组件 例如：filter.js
 
 ```js
-import shortId from "shortid"
 const inistialState = []
 const todos = (state = inistialState, action) => {
   switch (action.type) {
     case "ADD_LIST":
-      return [...state, { id: shortId(), todotext: action.text, finish: false }]
+      return [...state, action.newTodo]
+    case "GET_TODO":
+      return action.res
     case "CHANGE_FINISH":
       return state.map(ele => {
         if (ele.id === action.id) {
@@ -205,55 +291,85 @@ export default rootReducer
 //combinReducers方法允许合并多个state
 ```
 
-#### store(仅一个 index)
+### store(仅一个 index)
 
 ```js
 import { createStore, applyMiddleware } from "redux"
 import rootReducer from "../reducers"
 import logger from "redux-logger"
+import thunk from "redux-thunk"
 
-const store = createStore(rootReducer, applyMiddleware(logger))
+const store = createStore(rootReducer, applyMiddleware(logger, thunk))
 export default store
-//注：applyMiddleware(logger)是一个可以显示store变化的插件，可有可无，方便开发时分析
+//注：applyMiddleware(logger，thunk)是redux的中间件，在store和action中间，创建store时声明
+//thunk允许action构造函数发送axios请求，logger显示store变化
 ```
 
-#### containers(容器组件文件夹，里面不需要 index)
+### containers(容器组件文件夹，里面不需要 index)
 
 ```js
 import React from "react"
 import { connect } from "react-redux"
 import Main from "../component/Main"
+import { setFilter, addTodo, finish } from "../actions"
+
 const MainContainer = props => <Main {...props} />
 const mapStateToProps = state => ({
   filter: state.filter,
   todos: state.todos
 })
-export default connect(mapStateToProps)(MainContainer)
+
+export default connect(
+  mapStateToProps,
+  { setFilter, addTodo, finish }
+)(MainContainer)
+
 //将store通过props传给展示组件
+//actions的三个方法是发送axios请求获取数据并且传给store
 ```
 
-#### component(展示组件,修改 store)
+### component(展示组件,修改 store)
 
 ```js
 import React, { Component } from "react"
 import styled from "styled-components"
-import store from "../store/index"
 import { getLeftNum } from "../selectors"
+
 class Menu extends Component {
   setfilter = type => {
-    store.dispatch({
-      type: type
-      xx:xxx
-    })
+    const { setFilter } = this.props
+    setFilter(type)
   }
   render() {
     const { todos } = this.props
-    console.log(todos)
 
     const num = getLeftNum(todos)
     return (
       <Wrap>
-        <span>{num} items left</span>
+        <span style={{ marginRight: "70px" }}>{num} items left</span>
+        <div>
+          <Button
+            onClick={() => {
+              this.setfilter("ALL")
+            }}
+          >
+            All
+          </Button>
+          <Button
+            onClick={() => {
+              this.setfilter("ACTIVE")
+            }}
+          >
+            Active
+          </Button>
+          <Button
+            onClick={() => {
+              this.setfilter("COMPLETE")
+            }}
+          >
+            Complete
+          </Button>
+        </div>
       </Wrap>
     )
   }
@@ -263,10 +379,9 @@ export default Menu
 const Wrap = styled.div`
   display: flex;
 `
-//注：styled包是可以把样式写在js中，本例中getLeftNum方法引入新方法来获得衍生数据。store.dispatch方法用于修改store，这个函数必须有一个参数type。表示发送的action类型，由reducers中的组件来接收action.type。
 ```
 
-#### selectors
+### selectors
 
 ```js
 export const getcurrentTodos = (todos, filter) => {

@@ -65,7 +65,7 @@
 				</div>
         <div id='readme' style='width:70%;margin-left:20%;'>
           	<article class='markdown-body'>
-            	<h3 id="-react-">创建 react 开发环境</h3>
+            	<h1 id="-react-">创建 react 开发环境</h1>
 <ul>
 <li><p>安装：npm i -g create-react-app</p>
 </li>
@@ -74,7 +74,7 @@
 <li><p>启动 在文件夹下执行<code>npm start</code></p>
 </li>
 </ul>
-<h3 id="-1-">实例 1 给组件添加点击事件</h3>
+<h2 id="-1-">实例 1 给组件添加点击事件</h2>
 <ul>
 <li><p>知识点</p>
 <p>1.接受父元素传递来的 props</p>
@@ -189,7 +189,9 @@ export default Header
 
 export default Header
 </code></pre>
-<h3 id="src-">src 下文件夹格式</h3>
+<h1 id="redux-">redux 安装</h1>
+<p>安装包 redux react-redux redux-logger</p>
+<h2 id="redux-src-">redux src 下文件夹格式</h2>
 <ul>
 <li><p>文件夹</p>
 <p>1.asset/ 存放公共 css 以及一些常量 内容：global.css</p>
@@ -219,8 +221,24 @@ export default Header
 </blockquote>
 </li>
 </ul>
-<h3 id="-">文件格式，写法</h3>
-<h4 id="reducers-index-">reducers(若干组件合并到 index 中)</h4>
+<h2 id="-">文件格式，写法</h2>
+<h3 id="index-">index 写法</h3>
+<pre><code class="lang-js">import React from &quot;react&quot;
+import ReactDOM from &quot;react-dom&quot;
+import App from &quot;./component/App/App&quot;
+import registerServiceWorker from &quot;./registerServiceWorker&quot;
+import { Provider } from &quot;react-redux&quot;
+import store from &quot;./store&quot;
+ReactDOM.render(
+  &lt;Provider store={store}&gt;
+    &lt;App /&gt;
+  &lt;/Provider&gt;,
+  document.getElementById(&quot;root&quot;)
+)
+registerServiceWorker()
+//注意要用Provider包裹
+</code></pre>
+<h3 id="reducers-index-">reducers(若干组件合并到 index 中)</h3>
 <ul>
 <li>组件 例如：filter.js</li>
 </ul>
@@ -255,7 +273,7 @@ const rootReducer = combineReducers({ filter, todos })
 export default rootReducer
 //combinReducers方法允许合并多个state
 </code></pre>
-<h4 id="store-index-">store(仅一个 index)</h4>
+<h3 id="store-index-">store(仅一个 index)</h3>
 <pre><code class="lang-js">import { createStore, applyMiddleware } from &quot;redux&quot;
 import rootReducer from &quot;../reducers&quot;
 import logger from &quot;redux-logger&quot;
@@ -264,7 +282,7 @@ const store = createStore(rootReducer, applyMiddleware(logger))
 export default store
 //注：applyMiddleware(logger)是一个可以显示store变化的插件，可有可无，方便开发时分析
 </code></pre>
-<h4 id="containers-index-">containers(容器组件文件夹，里面不需要 index)</h4>
+<h3 id="containers-index-">containers(容器组件文件夹，里面不需要 index)</h3>
 <pre><code class="lang-js">import React from &quot;react&quot;
 import { connect } from &quot;react-redux&quot;
 import Main from &quot;../component/Main&quot;
@@ -276,7 +294,7 @@ const mapStateToProps = state =&gt; ({
 export default connect(mapStateToProps)(MainContainer)
 //将store通过props传给展示组件
 </code></pre>
-<h4 id="component-store-">component(展示组件,修改 store)</h4>
+<h3 id="component-store-">component(展示组件,修改 store)</h3>
 <pre><code class="lang-js">import React, { Component } from &quot;react&quot;
 import styled from &quot;styled-components&quot;
 import store from &quot;../store/index&quot;
@@ -307,7 +325,7 @@ const Wrap = styled.div`
 `
 //注：styled包是可以把样式写在js中，本例中getLeftNum方法引入新方法来获得衍生数据。store.dispatch方法用于修改store，这个函数必须有一个参数type。表示发送的action类型，由reducers中的组件来接收action.type。
 </code></pre>
-<h4 id="selectors">selectors</h4>
+<h3 id="selectors">selectors</h3>
 <pre><code class="lang-js">export const getcurrentTodos = (todos, filter) =&gt; {
   switch (filter) {
     case &quot;All&quot;:
