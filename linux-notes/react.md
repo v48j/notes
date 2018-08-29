@@ -225,7 +225,7 @@ export default connect(
 //本例中 getTodo就是一个action构造函数，作用是发送axios请求获取数据，并且改变store
 ```
 
-### action 下 index
+### action 下 index(仅有 index)
 
 ```js
 import { CHANGE_FINISH, ADD_LIST, GET_TODO } from "../constants/actionType.js"
@@ -381,7 +381,7 @@ const Wrap = styled.div`
 `
 ```
 
-### selectors
+### selectors(获取衍生数据)
 
 ```js
 export const getcurrentTodos = (todos, filter) => {

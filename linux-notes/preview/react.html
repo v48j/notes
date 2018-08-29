@@ -195,11 +195,13 @@ export default Header
 <ul>
 <li><p>文件夹</p>
 <p>1.asset/ 存放公共 css 以及一些常量 内容：global.css</p>
-<p>2.component/ 存放展示组件 js</p>
+<p>2.components/ 存放展示组件 js</p>
 <p>3.containers/ 存放容器组件 内容 例如 ：MainContainer.js</p>
 <p>4.reducers/ 存放初始化数据，改变数据的 action 内容 index.js,xxx.js</p>
 <p>5.store/ 存放所有数据，讲所有数据汇总 内容 index.js</p>
 <p>6.selectors/ 存放获得衍生数据的方法 内容 index.js</p>
+<p>7.constants/ 存放字符串常量的文件给 action 使用，只有一个文件 actionType.js</p>
+<p>8.actions/ 存放 action 构造函数（即发送 dispatch 给 reducers 的函数），通常只有一个 index 文件</p>
 </li>
 <li><p>数据流程</p>
 <p>1.获取数据：reducers-&gt;store-&gt;containers-&gt;component</p>
@@ -238,16 +240,69 @@ ReactDOM.render(
 registerServiceWorker()
 //注意要用Provider包裹
 </code></pre>
+<h3 id="app-axios-">App 写法 初始化发送 axios 请求获取数据</h3>
+<pre><code class="lang-js">import React, { Component } from &quot;react&quot;
+import &quot;../../assets/global.css&quot;
+import MainContainer from &quot;../../containers/MainContainer&quot;
+import { connect } from &quot;react-redux&quot;
+import { getTodo } from &quot;../../actions/index&quot;
+class App extends Component {
+  componentDidMount = () =&gt; {
+    this.props.getTodo()
+  }
+  render() {
+    return (
+      &lt;div&gt;
+        &lt;MainContainer /&gt;
+      &lt;/div&gt;
+    )
+  }
+}
+
+export default connect(
+  null,
+  { getTodo }
+)(App)
+//注：connect 两个函数，第一个函数两个参数，都是对象。第一个对象参数是将state对象转为
+//props给组件，第二个对象是把该对象用dispatch包装，然后给组件。用dispatch包裹的好处
+//直接调用就可以发送dispatch请求来改变store，但因此要引入connect
+//本例中 getTodo就是一个action构造函数，作用是发送axios请求获取数据，并且改变store
+</code></pre>
+<h3 id="action-index">action 下 index</h3>
+<pre><code class="lang-js">import { CHANGE_FINISH, ADD_LIST, GET_TODO } from &quot;../constants/actionType.js&quot;
+import axios from &quot;axios&quot;
+
+export const setFilter = type =&gt; ({
+  type: type
+})
+export const addTodo = text =&gt; dispatch =&gt; {
+  const uri = &quot;http://localhost:3008/todolist&quot;
+  axios
+    .post(uri, { todotext: text, finish: false })
+    .then(res =&gt; {
+      dispatch({
+        type: ADD_LIST,
+        newTodo: res.data
+      })
+    })
+    .catch(() =&gt; {
+      console.log(&quot;添加失败&quot;)
+    })
+}
+//写了两个action构造函数，一个是发送axios请求的，另一个是普通的。想让action构造函数
+//能发送axios请求，需要下载包redux
+</code></pre>
 <h3 id="reducers-index-">reducers(若干组件合并到 index 中)</h3>
 <ul>
 <li>组件 例如：filter.js</li>
 </ul>
-<pre><code class="lang-js">import shortId from &quot;shortid&quot;
-const inistialState = []
+<pre><code class="lang-js">const inistialState = []
 const todos = (state = inistialState, action) =&gt; {
   switch (action.type) {
     case &quot;ADD_LIST&quot;:
-      return [...state, { id: shortId(), todotext: action.text, finish: false }]
+      return [...state, action.newTodo]
+    case &quot;GET_TODO&quot;:
+      return action.res
     case &quot;CHANGE_FINISH&quot;:
       return state.map(ele =&gt; {
         if (ele.id === action.id) {
@@ -277,43 +332,73 @@ export default rootReducer
 <pre><code class="lang-js">import { createStore, applyMiddleware } from &quot;redux&quot;
 import rootReducer from &quot;../reducers&quot;
 import logger from &quot;redux-logger&quot;
+import thunk from &quot;redux-thunk&quot;
 
-const store = createStore(rootReducer, applyMiddleware(logger))
+const store = createStore(rootReducer, applyMiddleware(logger, thunk))
 export default store
-//注：applyMiddleware(logger)是一个可以显示store变化的插件，可有可无，方便开发时分析
+//注：applyMiddleware(logger，thunk)是redux的中间件，在store和action中间，创建store时声明
+//thunk允许action构造函数发送axios请求，logger显示store变化
 </code></pre>
 <h3 id="containers-index-">containers(容器组件文件夹，里面不需要 index)</h3>
 <pre><code class="lang-js">import React from &quot;react&quot;
 import { connect } from &quot;react-redux&quot;
 import Main from &quot;../component/Main&quot;
+import { setFilter, addTodo, finish } from &quot;../actions&quot;
+
 const MainContainer = props =&gt; &lt;Main {...props} /&gt;
 const mapStateToProps = state =&gt; ({
   filter: state.filter,
   todos: state.todos
 })
-export default connect(mapStateToProps)(MainContainer)
+
+export default connect(
+  mapStateToProps,
+  { setFilter, addTodo, finish }
+)(MainContainer)
+
 //将store通过props传给展示组件
+//actions的三个方法是发送axios请求获取数据并且传给store
 </code></pre>
 <h3 id="component-store-">component(展示组件,修改 store)</h3>
 <pre><code class="lang-js">import React, { Component } from &quot;react&quot;
 import styled from &quot;styled-components&quot;
-import store from &quot;../store/index&quot;
 import { getLeftNum } from &quot;../selectors&quot;
+
 class Menu extends Component {
   setfilter = type =&gt; {
-    store.dispatch({
-      type: type
-      xx:xxx
-    })
+    const { setFilter } = this.props
+    setFilter(type)
   }
   render() {
     const { todos } = this.props
-    console.log(todos)
 
     const num = getLeftNum(todos)
     return (
       &lt;Wrap&gt;
-        &lt;span&gt;{num} items left&lt;/span&gt;
+        &lt;span style={{ marginRight: &quot;70px&quot; }}&gt;{num} items left&lt;/span&gt;
+        &lt;div&gt;
+          &lt;Button
+            onClick={() =&gt; {
+              this.setfilter(&quot;ALL&quot;)
+            }}
+          &gt;
+            All
+          &lt;/Button&gt;
+          &lt;Button
+            onClick={() =&gt; {
+              this.setfilter(&quot;ACTIVE&quot;)
+            }}
+          &gt;
+            Active
+          &lt;/Button&gt;
+          &lt;Button
+            onClick={() =&gt; {
+              this.setfilter(&quot;COMPLETE&quot;)
+            }}
+          &gt;
+            Complete
+          &lt;/Button&gt;
+        &lt;/div&gt;
       &lt;/Wrap&gt;
     )
   }
@@ -323,7 +408,6 @@ export default Menu
 const Wrap = styled.div`
   display: flex;
 `
-//注：styled包是可以把样式写在js中，本例中getLeftNum方法引入新方法来获得衍生数据。store.dispatch方法用于修改store，这个函数必须有一个参数type。表示发送的action类型，由reducers中的组件来接收action.type。
 </code></pre>
 <h3 id="selectors">selectors</h3>
 <pre><code class="lang-js">export const getcurrentTodos = (todos, filter) =&gt; {
