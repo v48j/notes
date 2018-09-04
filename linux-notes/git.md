@@ -96,12 +96,12 @@ package.json 内添加 homapage: "http://Sunny-zz.github.io/react-cart"
 
 方案二
 验证我们的项目在 npm start 环境下可以正常运行
-package.json 内添加 homapage: "http://Sunny-zz.github.io/react-cart"
+package.json 内添加 "homepage": "http://v48j.github.io/react-cart"
 安装 gh-pages 包 `npm i -D gh-pages`
 在 package.json 中的 script 字段下添加 "predeploy": "npm run build", "deploy": "gh-pages -d build"
 网上新建仓库将我们的项目传到网上(主分支)
 执行 npm run deploy
-最后到 http://Sunny-zz.github.io/react-cart 就可以访问项目了
+最后到 http://v48j.github.io/react-cart 就可以访问项目了
 
 方案三
 将 react 项目部署到 netlify 免费服务器

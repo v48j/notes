@@ -45,9 +45,9 @@ arr.indexOf(arr[i])
 - **find** 返回一个搜索结果，不改变原数组
 - **findIndex** 返回搜索结果位置
 
-```ruby
-var student = students.find(function(ele){
-    return ele.name === 'aaa'
+```js
+var student = students.find(function(ele) {
+  return ele.name === "aaa"
 })
 ```
 
@@ -56,7 +56,7 @@ var student = students.find(function(ele){
 - **使用技巧!!!!!!!!!!!!!!!!!!!!!!!!!**
   选择数组中符合正则表达式的元素
 
-```ruby
+```js
 var arr=[1,2,3,4,5,6,7,2]
 var re=/[2]/
 function del(arr,val) {
@@ -100,16 +100,16 @@ console.log(nums);
 
 - **slice()** 方法返回一个从开始到结束（不包括结束）选择的数组的一部分浅拷贝到一个新数组对象。且原始数组不会被修改。
 
-```ruby
-var animals = ['ant', 'bison', 'camel', 'duck', 'elephant'];
+```js
+var animals = ["ant", "bison", "camel", "duck", "elephant"]
 
-console.log(animals.slice(2));
+console.log(animals.slice(2))
 // expected output: Array ["camel", "duck", "elephant"]
 
-console.log(animals.slice(2, 4));
+console.log(animals.slice(2, 4))
 // expected output: Array ["camel", "duck"]
 
-console.log(animals.slice(1, 5));
+console.log(animals.slice(1, 5))
 // expected output: Array ["bison", "camel", "duck", "elephant"]
 ```
 
@@ -147,13 +147,13 @@ console.log(animals.slice(1, 5));
 
 - **map** 映射 将数组生成一个新的数组 数组个数不变
 
-```ruby
-var numArr = [1,2,3,4]
-var newNum = numArr.map(function(ele){
-    return ele*ele
+```js
+var numArr = [1, 2, 3, 4]
+var newNum = numArr.map(function(ele) {
+  return ele * ele
 })
 
-输出1,4,9,16
+输出1, 4, 9, 16
 ```
 
 - **reduce**(函数，结果初始值) 通常用于一个数组变成一个数或者对象时使用
