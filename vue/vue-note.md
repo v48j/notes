@@ -134,3 +134,38 @@ export default {
 }
 </script>
 ```
+
+## Vue 过渡动画
+
+```js
+<template>
+  <div class="comment">
+    <transition-group name="list" tag="ul" v-else>
+      <li v-for="ele in comments" key="id">
+        <span>内容</span>
+      </li>
+    </transition-group>
+  </div>
+</template>
+
+<style>
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.75s;
+}
+.list-enter,
+.list-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
+</style>
+```
+
+使用时，如果是多个，用 transition-group 包裹，单个用 transition 包裹
+里面的 name 属性规定前缀，tag 属性规定标签代表什么
+下面的 style 中根据前缀写样式
+active 表示动画过程中
+enter 表示 出现
+leave 表示 消失
+to 表示 结束
+什么都没有表示 开始，初始状态
