@@ -177,14 +177,24 @@ var newNum = numArr.map(function(ele) {
 >    }
 > ]
 > ```
->
-> 1.求和
-> var total = shoppingCart.reduce(function(result,ele,index,array){
-> //result 是结果,计算结束后的返回值
-> //result 和 ele 是必须的,后两个值可选
-> //reduce() 方法接收一个函数作为累加器，数组中的每个值（从左到右）开始缩减，最终计算为一个值。
-> result = result + ele.price\*ele.number
-> return result
-> }，0)
+
+1.求和
+var total = shoppingCart.reduce(function(result,ele,index,array){
+//result 是结果,计算结束后的返回值
+//result 和 ele 是必须的,后两个值可选
+//reduce() 方法接收一个函数作为累加器，数组中的每个值（从左到右）开始缩减，最终计算为一个值。
+result = result + ele.price\*ele.number
+return result
+}，0)
+
+```js
+reduce((result, ele) => {
+  //函数内容
+  return result
+}, 0)
+```
+
+reduce 里面放两个参数，一个是函数，另一个是结果的初始值
+函数里面第一个参数是结果，第二个结果是每一项
 
 ---

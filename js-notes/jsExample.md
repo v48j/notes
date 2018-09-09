@@ -117,3 +117,13 @@ css 样式
 ```html
 <input type="checkbox" checked="true">
 ```
+
+### 用 JS 在字符过长时加省略号
+
+```js
+var str = document.getElementById("td1").innerHTML
+var cd = str.length
+if (cd > 5) {
+  document.getElementById("td1").innerHTML = str.substring(0, 5) + "..."
+}
+```
