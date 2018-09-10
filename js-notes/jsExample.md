@@ -112,6 +112,8 @@ css 样式
 
 ### 无法选中(双击无法变蓝)
 
+### 函数的节流和防抖(减少函数执行次数)
+
 ### input checkbox 默认选中
 
 ```html
@@ -127,3 +129,4 @@ if (cd > 5) {
   document.getElementById("td1").innerHTML = str.substring(0, 5) + "..."
 }
 ```
+
