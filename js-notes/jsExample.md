@@ -114,6 +114,8 @@ css 样式
 
 ### 函数的节流和防抖(减少函数执行次数)
 
+### 双击可编辑内容
+
 ### input checkbox 默认选中
 
 ```html
@@ -129,4 +131,3 @@ if (cd > 5) {
   document.getElementById("td1").innerHTML = str.substring(0, 5) + "..."
 }
 ```
-

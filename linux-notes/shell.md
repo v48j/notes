@@ -34,7 +34,7 @@
 
   rm index.html 删除文件
 
-  rm -r mozan/ 删除文件夹，需要参数-r 隐藏文件 rm -r .mozan/
+  rm -r mozan/ 删除文件夹，需要参数-r
 
   rm -rf mozan/ 删除，参数-f 是强制删除
 

@@ -43,7 +43,18 @@ var firstNum = numArr[0]
 arr.indexOf(arr[i])
 
 - **find** 返回一个搜索结果，不改变原数组
+
 - **findIndex** 返回搜索结果位置
+
+例如 `arr.findIndex(ele => ele.id === 5)` 寻找 id=5 的元素的索引
+
+- **every** 检查数组中所有元素是否都符合条件，有一个不符合的返回 false
+
+`arr.every(ele=>ele.id>5)`
+
+- **some** 与 every 类似，有一个符合条件的就返回 true
+
+`arr.some(ele=>ele.id<7)`
 
 ```js
 var student = students.find(function(ele) {
