@@ -1,0 +1,422 @@
+<html>
+  <head>
+	  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>i5ting_ztree_toc:vue-note</title>
+		<link href="toc/style/github-bf51422f4bb36427d391e4b75a1daa083c2d840e.css" media="all" rel="stylesheet" type="text/css"/>
+		<link href="toc/style/github2-d731afd4f624c99a4b19ad69f3083cd6d02b81d5.css" media="all" rel="stylesheet" type="text/css"/>
+		<link href="toc/css/zTreeStyle/zTreeStyle.css" media="all" rel="stylesheet" type="text/css"/>
+	  <style>
+		pre {
+		    counter-reset: line-numbering;
+		    border: solid 1px #d9d9d9;
+		    border-radius: 0;
+		    background: #fff;
+		    padding: 0;
+		    line-height: 23px;
+		    margin-bottom: 30px;
+		    white-space: pre;
+		    overflow-x: auto;
+		    word-break: inherit;
+		    word-wrap: inherit;
+		}
+
+		pre a::before {
+		  content: counter(line-numbering);
+		  counter-increment: line-numbering;
+		  padding-right: 1em; /* space after numbers */
+		  width: 25px;
+		  text-align: right;
+		  opacity: 0.7;
+		  display: inline-block;
+		  color: #aaa;
+		  background: #eee;
+		  margin-right: 16px;
+		  padding: 2px 10px;
+		  font-size: 13px;
+		  -webkit-touch-callout: none;
+		  -webkit-user-select: none;
+		  -khtml-user-select: none;
+		  -moz-user-select: none;
+		  -ms-user-select: none;
+		  user-select: none;
+		}
+
+		pre a:first-of-type::before {
+		  padding-top: 10px;
+		}
+
+		pre a:last-of-type::before {
+		  padding-bottom: 10px;
+		}
+
+		pre a:only-of-type::before {
+		  padding: 10px;
+		}
+
+		.highlight { background-color: #ffffcc } /* RIGHT */
+		</style>
+  </head>
+  <body>
+	  <div>
+				<div style='width:25%;'>
+						<ul id="tree" class="ztree" style='width:100%'>
+
+						</ul>
+				</div>
+        <div id='readme' style='width:70%;margin-left:20%;'>
+          	<article class='markdown-body'>
+            	<h1 id="vue">Vue</h1>
+<h2 id="vue-">Vue 指令</h2>
+<p>npm i -g @vue/cli 安装
+vue create vue-hello 创建
+npm run serve 启动服务，在 localhost:8080 下查看网页</p>
+<h2 id="vue-">Vue 格式</h2>
+<pre><code class="lang-js">&lt;template&gt;
+  &lt;div id=&quot;app&quot;&gt;
+    &lt;span @click=&quot;&quot; :class=&quot;active:isActive&quot; style=&quot;{fontSize:15+&#39;px&#39;}&quot;&gt;app&lt;/span&gt;
+    &lt;Home/&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;style&gt;
+#id{
+  color:red
+}
+.active{
+  color:green
+}
+&lt;/style&gt;
+
+&lt;script&gt;
+import Home from &quot;./components/Home&quot;
+export default{
+  name:&quot;app&quot;,
+  props:[&quot;xxx&quot;,&quot;xxx&quot;]
+  components:{Home,xxx,xxx},
+  computed:{getTotal(){return this.pen.map(...)}},
+  data:()=&gt;({pen:0,type:&quot;all&quot;,isActive}),
+  methods:{change:function(){xxx},click:function(){xxx}},
+  mounted:{},
+  destrioyed{}
+}
+&lt;/script&gt;
+//注意文件后缀名是.vue
+</code></pre>
+<h2 id="vue-">Vue 路由</h2>
+<h3 id="-">安装依赖项</h3>
+<p><code>npm install vue-router</code></p>
+<h3 id="-">新建所需文件</h3>
+<p>在 src 下新建文件夹 router，下面新建文件 index.js</p>
+<pre><code class="lang-js">import VueRouter from &quot;vue-router&quot;
+import Vue from &quot;vue&quot;
+import Home from &quot;../components/Home&quot;
+import Post from &quot;../components/Post&quot;
+import ShowList from &quot;../components/ShowList&quot;
+Vue.use(VueRouter)
+
+const routes = [
+  {
+    path: &quot;/&quot;,
+    component: Home,
+    children: [
+      { path: &quot;/&quot;, component: ShowList },
+      { path: &quot;welcome/:tab&quot;, name: &quot;ShowList&quot;, component: ShowList }
+    ]
+  },
+  { path: &quot;*&quot;, redirect: &quot;/404&quot; },
+  { path: &quot;/pins&quot;, component: Pins },
+  { path: &quot;/events&quot;, component: Events },
+  { path: &quot;/404&quot;, component: Error1 },
+  { path: &quot;/user&quot;, component: User }
+]
+
+const router = new VueRouter({
+  mode: &quot;history&quot;,
+  routes
+})
+
+export default router
+</code></pre>
+<h3 id="-main">配置 main</h3>
+<p>main 文件改动</p>
+<pre><code class="lang-js">import Vue from &quot;vue&quot;
+import App from &quot;./App.vue&quot;
+import &quot;./assets/global.css&quot;
+import router from &quot;./router&quot;
+
+Vue.config.productionTip = false
+
+new Vue({
+  render: h =&gt; h(App),
+  router
+}).$mount(&quot;#app&quot;)
+</code></pre>
+<h3 id="-">展示路由</h3>
+<p>例如，在 App 组件中展示</p>
+<pre><code class="lang-js">&lt;template&gt;
+  &lt;div&gt;
+    &lt;router-view&gt;&lt;/router-view&gt;
+  &lt;/div&gt;
+
+&lt;/template&gt;
+&lt;script&gt;
+import Post from &quot;./components/Post&quot;
+import Home from &quot;./components/Home&quot;
+export default {
+  name: &quot;app&quot;,
+  components: {
+    Post,
+    Home
+  }
+}
+&lt;/script&gt;
+</code></pre>
+<h3 id="-">组件路由</h3>
+<pre><code class="lang-js">&lt;template&gt;
+  &lt;div class=&quot;topics-list&quot;&gt;
+    &lt;ul&gt;
+      &lt;li v-for=&#39;ele in posts&#39; :key=&quot;ele.id&quot;&gt;
+        &lt;router-link :to=&quot;`/post/${ele.id}`&quot; active-class=&quot;class&quot;&gt;{{this.$route.params.tab}}&lt;/router-link&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+          &lt;router-link :to=&quot;{name:&#39;ShowList&#39;,params:{tab:&#39;frontend&#39;}}&quot; active-class=&quot;active1&quot;&gt;前端&lt;/router-link&gt;
+        &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+export default {
+  name: &quot;home&quot;,
+  data: () =&gt; ({
+    posts: []
+  })
+}
+&lt;/script&gt;
+
+
+&lt;style&gt;
+.class{
+  color:red;
+}
+&lt;/style&gt;
+</code></pre>
+<h3 id="-">返回历史与跳转</h3>
+<pre><code class="lang-js">&lt;template&gt;
+  &lt;div&gt;
+    user
+    &lt;button @click=&quot;$router.back()&quot;&gt;返回&lt;/button&gt;
+    &lt;button @click=&quot;go&quot;&gt;首页&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+export default {
+  name: &quot;user&quot;,
+  methods: {
+    go: function() {
+      this.$router.push(&quot;/&quot;)
+    }
+  }
+}
+&lt;/script&gt;
+</code></pre>
+<p><strong>push 里面有三个参数 router.push(location, onComplete?, onAbort?) 其中第一个是地址，可以用字符串的方式填写路径或者组件名，第二个和第三个这些回调将会在导航成功完成 (在所有的异步钩子被解析之后) 或终止 (导航到相同的路由、或在当前导航完成之前导航到另一个不同的路由) 的时候进行相应的调用</strong></p>
+<h2 id="-">绑定事件，调用数据注意事项</h2>
+<p>在组件的 templete 中，在标签中绑定事件，调用 data 数据，直接写名字，函数不用写括号，也不要写 this。直接写需要数据的名字！函数中不可以写 this，this 指向不对，例如@click 中不可以写 this。<strong>因此在 templete 中不要写 this，在 script 中普通函数中写 this</strong></p>
+<h3 id="-">滚动条事件</h3>
+<p>注意，函数的节流和防抖。减少函数出发次数</p>
+<pre><code class="lang-js">&lt;script&gt;
+import ShowList from &quot;./ShowList&quot;
+export default {
+  name: &quot;main1&quot;,
+  mounted() {
+    window.onscroll = function() {
+      console.log(1)
+    }
+  }
+}
+&lt;/script&gt;
+</code></pre>
+<h2 id="vue-">Vue 过渡动画</h2>
+<pre><code class="lang-js">&lt;template&gt;
+  &lt;div class=&quot;comment&quot;&gt;
+    &lt;transition-group name=&quot;list&quot; tag=&quot;ul&quot; v-else&gt;
+      &lt;li v-for=&quot;ele in comments&quot; key=&quot;id&quot;&gt;
+        &lt;span&gt;内容&lt;/span&gt;
+      &lt;/li&gt;
+    &lt;/transition-group&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;style&gt;
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.75s;
+}
+.list-enter,
+.list-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
+&lt;/style&gt;
+</code></pre>
+<p>使用时，如果是多个，用 transition-group 包裹，单个用 transition 包裹
+里面的 name 属性规定前缀，tag 属性规定标签代表什么
+下面的 style 中根据前缀写样式
+active 表示动画过程中
+enter 表示 出现
+leave 表示 消失
+to 表示 结束
+什么都没有表示 开始，初始状态</p>
+<h2 id="vuex">Vuex</h2>
+<ul>
+<li>安装</li>
+</ul>
+<p><code>npm install vuex --save</code></p>
+<ul>
+<li>创建相关文件</li>
+</ul>
+<h3 id="modules-js">modules/模块文件名.js</h3>
+<p>在 src 下新建文件夹 modules 放置模块</p>
+<p>src/modules/模块文件名(goods.js)</p>
+<pre><code class="lang-js">import axios from &quot;axios&quot;
+
+const state = {
+  goods: []
+}
+
+const mutations = {
+  getGoods(state, newGoods) {
+    state.goods.push(...newGoods)
+  }
+}
+
+const actions = {
+  getGoods({ commit }，{id，参数2}) {
+    const uri = `http://localhost:3008/goods${id}`
+    axios.get(uri).then(res =&gt; {
+      commit(&quot;getGoods&quot;, res.data)
+    })
+  }
+}
+
+const getters = {
+  goodsNameList(state) {
+    return state.goods.map(ele =&gt; ele.name)
+  }
+}
+
+const goods = {
+  state,
+  mutations,
+  actions,
+  getters
+}
+
+export default goods
+</code></pre>
+<p>一个模块文件，包含
+state，
+mutations（存放修改 state 的方法），
+actions（存放负责发送异步请求函数，并调用 mutations 下函数），
+getters（计算衍生数据，方便组件使用，还可以接收参数）</p>
+<p>流程：组件通过发送 dispatch 触发 actions， actions 负责发送 axios 请求，请求成功后，通过 commit 执行 mutation 中的同名的函数，这个同名函数负责修改 state 中的数据。getters 的作用是返回一个衍生数据，不同于 computed，它可以接受参数。将他们整合在一起，通过 export 暴露出来，需要的地方使用。</p>
+<p><strong>commit 执行同名文件，commit 是自带的，不需要引入，本文件只需要引入 axios 即可</strong></p>
+<h3 id="-store-index-js">创建 store/index.js</h3>
+<p>在 src 下新建文件夹 store，里面有 index.js</p>
+<p>模块化创建</p>
+<p>src/store/index.js</p>
+<pre><code class="lang-js">import Vuex from &quot;vuex&quot;
+import Vue from &quot;vue&quot;
+import number from &quot;../modules/number&quot;
+import count from &quot;../modules/count&quot;
+Vue.use(Vuex)
+
+const store = new Vuex.Store({
+  modules: {
+    count,
+    number
+  }
+})
+
+export default store
+</code></pre>
+<p>store 是创建好之后的 store</p>
+<h3 id="-main-js-">在 main.js 中引入并使用</h3>
+<pre><code class="lang-js">import Vue from &quot;vue&quot;
+import App from &quot;./App.vue&quot;
+import &quot;./assets/global.css&quot;
+import store from &quot;./store/index&quot;
+Vue.config.productionTip = false
+
+new Vue({
+  render: h =&gt; h(App),
+  store
+}).$mount(&quot;#app&quot;)
+</code></pre>
+<h3 id="components-store-">components 使用、修改 store 中的数据</h3>
+<pre><code class="lang-html">&lt;template&gt;
+  &lt;div id=&quot;app&quot;&gt;
+    &lt;button @click=&quot;$store.state.count--&quot;&gt;-&lt;/button&gt;
+    &lt;span&gt;{{$store.state.count.count}}&lt;/span&gt;
+    &lt;button @click=&quot;$store.commit(&#39;increment&#39;)&quot;&gt;+&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+import Home from &quot;./components/Home&quot;
+export default {
+  name: &quot;app&quot;,
+  components: { Home },
+  mounted() {
+    this.$store.dispatch(&quot;getGoods&quot;，{id，参数2})
+  }
+}
+&lt;/script&gt;
+</code></pre>
+<p>初始化时发送 dispatch 去触发 actions 下的 getGoods 来获得数据存储到 store 中，然后展示在页面中，由于异步请求，因此展示的东西可能不存在或者报错，因此注意使用 v-show 或者 v-if，v-else 展示</p>
+<ul>
+<li><strong>在非模块化中</strong>在任意组件内部可以使用<code>this.$store.state</code>可以访问数据.<strong>在模块化组件中</strong>，使用<code>this.$store.模块名.数据名</code>访问，可以使用<code>this.$store.commit(&#39;mutation 内的函数名&#39;)</code>触发 mutation 从而修改 store</li>
+</ul>
+<h2 id="vue-sass">Vue 中使用 sass</h2>
+<ul>
+<li>安装包</li>
+</ul>
+<p><code>npm i node-sass sass-loader</code></p>
+<ul>
+<li>创建文件</li>
+</ul>
+<p>在 assets 下新建文件 style.scss</p>
+<ul>
+<li>在组件中使用</li>
+</ul>
+<pre><code class="lang-css">&lt;style lang=&quot;scss&quot;&gt;
+@import &quot;./assets/style.scss&quot;;
+.type {
+  border: 1px solid #ccc;
+}
+&lt;/style&gt;
+</code></pre>
+<h2 id="better-scroll">better scroll</h2>
+
+          	</article>
+        </div>
+		</div>
+  </body>
+</html>
+<script type="text/javascript" src="toc/js/jquery-1.4.4.min.js"></script>
+<script type="text/javascript" src="toc/js/jquery.ztree.all-3.5.min.js"></script>
+<script type="text/javascript" src="toc/js/ztree_toc.js"></script>
+<script type="text/javascript" src="toc_conf.js"></script>
+
+<SCRIPT type="text/javascript" >
+<!--
+$(document).ready(function(){
+    var css_conf = eval(markdown_panel_style);
+    $('#readme').css(css_conf)
+    
+    var conf = eval(jquery_ztree_toc_opts);
+		$('#tree').ztree_toc(conf);
+});
+//-->
+</SCRIPT>

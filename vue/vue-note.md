@@ -247,7 +247,7 @@ to 表示 结束
 
 - 创建相关文件
 
-- 1.模块文件
+### modules/模块文件名.js
 
 在 src 下新建文件夹 modules 放置模块
 
@@ -301,7 +301,7 @@ getters（计算衍生数据，方便组件使用，还可以接收参数）
 
 **commit 执行同名文件，commit 是自带的，不需要引入，本文件只需要引入 axios 即可**
 
-- 2.创建 store
+### 创建 store/index.js
 
 在 src 下新建文件夹 store，里面有 index.js
 
@@ -328,7 +328,7 @@ export default store
 
 store 是创建好之后的 store
 
-- 3.在 main 中引入并使用
+### 在 main.js 中引入并使用
 
 ```js
 import Vue from "vue"
@@ -343,7 +343,7 @@ new Vue({
 }).$mount("#app")
 ```
 
-- 4.使用、修改 store 中的数据
+### components 使用、修改 store 中的数据
 
 ```html
 <template>
