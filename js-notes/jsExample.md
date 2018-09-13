@@ -112,6 +112,17 @@ css 样式
 
 ### 无法选中(双击无法变蓝)
 
+```css
+.text {
+  -moz-user-select: none; /*火狐*/
+  -webkit-user-select: none; /*webkit浏览器*/
+  -ms-user-select: none; /*IE10*/
+  -khtml-user-select: none; /*早期浏览器*/
+  user-select: none;
+  /*user-select有2个值（none表示不能选中文本，text表示可以选择文本）*/
+}
+```
+
 ### 函数的节流和防抖(减少函数执行次数)
 
 ### 双击可编辑内容

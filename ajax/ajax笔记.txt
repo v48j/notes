@@ -133,10 +133,10 @@ axios.post('地址',{body:'123456'})
 .catch(function(err){
 
 })
-改
+改(put或者patch)
 axios.put('地址/id',{body:'123456'})
 .then(function(res){
-
+res是更新好的数据
 })
 .catch(function(err){
 

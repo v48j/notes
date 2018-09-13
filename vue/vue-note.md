@@ -180,6 +180,8 @@ export default {
 </script>
 ```
 
+**push 里面有三个参数 router.push(location, onComplete?, onAbort?) 其中第一个是地址，可以用字符串的方式填写路径或者组件名，第二个和第三个这些回调将会在导航成功完成 (在所有的异步钩子被解析之后) 或终止 (导航到相同的路由、或在当前导航完成之前导航到另一个不同的路由) 的时候进行相应的调用**
+
 ## 绑定事件，调用数据注意事项
 
 在组件的 templete 中，在标签中绑定事件，调用 data 数据，直接写名字，函数不用写括号，也不要写 this。直接写需要数据的名字！函数中不可以写 this，this 指向不对，例如@click 中不可以写 this。**因此在 templete 中不要写 this，在 script 中普通函数中写 this**
@@ -249,23 +251,55 @@ to 表示 结束
 
 在 src 下新建文件夹 modules 放置模块
 
-src/modules/模块文件名(number)
+src/modules/模块文件名(goods.js)
 
 ```js
+import axios from "axios"
+
 const state = {
-  number: 2
+  goods: []
 }
+
 const mutations = {
-  incrementNumber(state) {
-    state.number++
+  getGoods(state, newGoods) {
+    state.goods.push(...newGoods)
   }
 }
-const number = {
-  state,
-  mutations
+
+const actions = {
+  getGoods({ commit }，{id，参数2}) {
+    const uri = `http://localhost:3008/goods${id}`
+    axios.get(uri).then(res => {
+      commit("getGoods", res.data)
+    })
+  }
 }
-export default number
+
+const getters = {
+  goodsNameList(state) {
+    return state.goods.map(ele => ele.name)
+  }
+}
+
+const goods = {
+  state,
+  mutations,
+  actions,
+  getters
+}
+
+export default goods
 ```
+
+一个模块文件，包含
+state，
+mutations（存放修改 state 的方法），
+actions（存放负责发送异步请求函数，并调用 mutations 下函数），
+getters（计算衍生数据，方便组件使用，还可以接收参数）
+
+流程：组件通过发送 dispatch 触发 actions， actions 负责发送 axios 请求，请求成功后，通过 commit 执行 mutation 中的同名的函数，这个同名函数负责修改 state 中的数据。getters 的作用是返回一个衍生数据，不同于 computed，它可以接受参数。将他们整合在一起，通过 export 暴露出来，需要的地方使用。
+
+**commit 执行同名文件，commit 是自带的，不需要引入，本文件只需要引入 axios 即可**
 
 - 2.创建 store
 
@@ -292,8 +326,6 @@ const store = new Vuex.Store({
 export default store
 ```
 
-state 是数据
-mutations 是修改数据的方法
 store 是创建好之后的 store
 
 - 3.在 main 中引入并使用
@@ -327,8 +359,36 @@ import Home from "./components/Home"
 export default {
   name: "app",
   components: { Home },
+  mounted() {
+    this.$store.dispatch("getGoods"，{id，参数2})
+  }
 }
 </script>
 ```
 
+初始化时发送 dispatch 去触发 actions 下的 getGoods 来获得数据存储到 store 中，然后展示在页面中，由于异步请求，因此展示的东西可能不存在或者报错，因此注意使用 v-show 或者 v-if，v-else 展示
+
 - **在非模块化中**在任意组件内部可以使用`this.$store.state`可以访问数据.**在模块化组件中**，使用`this.$store.模块名.数据名`访问，可以使用`this.$store.commit('mutation 内的函数名')`触发 mutation 从而修改 store
+
+## Vue 中使用 sass
+
+- 安装包
+
+`npm i node-sass sass-loader`
+
+- 创建文件
+
+在 assets 下新建文件 style.scss
+
+- 在组件中使用
+
+```css
+<style lang="scss">
+@import "./assets/style.scss";
+.type {
+  border: 1px solid #ccc;
+}
+</style>
+```
+
+## better scroll
