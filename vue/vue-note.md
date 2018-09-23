@@ -278,6 +278,11 @@ const actions = {
 const getters = {
   goodsNameList(state) {
     return state.goods.map(ele => ele.name)
+  },
+  functionname(state){
+    return function(id){
+      //函数内容
+    }
   }
 }
 
@@ -293,9 +298,9 @@ export default goods
 
 一个模块文件，包含
 state，
-mutations（存放修改 state 的方法），
-actions（存放负责发送异步请求函数，并调用 mutations 下函数），
-getters（计算衍生数据，方便组件使用，还可以接收参数）
+mutations（存放修改 state 的方法，默认接受参数 state），
+actions（存放负责发送异步请求函数，并调用 mutations 下函数，函数默认接收参数 context，通常使用{commit}用于调用 mutations 同名函数），
+getters（计算衍生数据，方便组件使用，还可以接收参数。默认接受参数 state。**注意：要有返回值，接受参数时返回值是一个函数，在函数里写参数**）
 
 流程：组件通过发送 dispatch 触发 actions， actions 负责发送 axios 请求，请求成功后，通过 commit 执行 mutation 中的同名的函数，这个同名函数负责修改 state 中的数据。getters 的作用是返回一个衍生数据，不同于 computed，它可以接受参数。将他们整合在一起，通过 export 暴露出来，需要的地方使用。
 
@@ -360,7 +365,9 @@ export default {
   name: "app",
   components: { Home },
   mounted() {
-    this.$store.dispatch("getGoods"，{id，参数2})
+    this.$store.dispatch("getGoods"，{id，参数2})//触发action下函数
+    this.$store.getters.functionname(param1,param2)//触发getters下函数
+    this.$store.commit("addToCart", 参数1，参数2)//触发mutations下函数
   }
 }
 </script>

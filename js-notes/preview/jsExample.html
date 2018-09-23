@@ -1,0 +1,200 @@
+<html>
+  <head>
+	  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>i5ting_ztree_toc:jsExample</title>
+		<link href="toc/style/github-bf51422f4bb36427d391e4b75a1daa083c2d840e.css" media="all" rel="stylesheet" type="text/css"/>
+		<link href="toc/style/github2-d731afd4f624c99a4b19ad69f3083cd6d02b81d5.css" media="all" rel="stylesheet" type="text/css"/>
+		<link href="toc/css/zTreeStyle/zTreeStyle.css" media="all" rel="stylesheet" type="text/css"/>
+	  <style>
+		pre {
+		    counter-reset: line-numbering;
+		    border: solid 1px #d9d9d9;
+		    border-radius: 0;
+		    background: #fff;
+		    padding: 0;
+		    line-height: 23px;
+		    margin-bottom: 30px;
+		    white-space: pre;
+		    overflow-x: auto;
+		    word-break: inherit;
+		    word-wrap: inherit;
+		}
+
+		pre a::before {
+		  content: counter(line-numbering);
+		  counter-increment: line-numbering;
+		  padding-right: 1em; /* space after numbers */
+		  width: 25px;
+		  text-align: right;
+		  opacity: 0.7;
+		  display: inline-block;
+		  color: #aaa;
+		  background: #eee;
+		  margin-right: 16px;
+		  padding: 2px 10px;
+		  font-size: 13px;
+		  -webkit-touch-callout: none;
+		  -webkit-user-select: none;
+		  -khtml-user-select: none;
+		  -moz-user-select: none;
+		  -ms-user-select: none;
+		  user-select: none;
+		}
+
+		pre a:first-of-type::before {
+		  padding-top: 10px;
+		}
+
+		pre a:last-of-type::before {
+		  padding-bottom: 10px;
+		}
+
+		pre a:only-of-type::before {
+		  padding: 10px;
+		}
+
+		.highlight { background-color: #ffffcc } /* RIGHT */
+		</style>
+  </head>
+  <body>
+	  <div>
+				<div style='width:25%;'>
+						<ul id="tree" class="ztree" style='width:100%'>
+
+						</ul>
+				</div>
+        <div id='readme' style='width:70%;margin-left:20%;'>
+          	<article class='markdown-body'>
+            	<h3 id="-">判断手机号</h3>
+<pre><code class="lang-js">function checkPhone() {
+  var phone = document.querySelector(&quot;.phone-reg&quot;).value
+  if (!/^1[34578]\d{9}$/.test(phone)) {
+    alert(&quot;手机号码有误，请重新填写&quot;)
+    return false
+  }
+}
+</code></pre>
+<h3 id="-4-">手机号中间 4 位加密</h3>
+<pre><code class="lang-js">var str = &quot;1366668888&quot;
+var str2 = str.substr(0, 3) + &quot;****&quot; + str.substr(7)
+alert(str2)
+</code></pre>
+<h3 id="-input-type-password-">密码框 input type=&#39;password&#39; 没有默认填写</h3>
+<pre><code class="lang-html">&lt;input autocomplete=&quot;off&quot;&gt;  谷歌浏览器无效，其他浏览器有效
+&lt;input autocomplete=&quot;new-password&quot;&gt;  谷歌浏览器有效
+</code></pre>
+<h3 id="select-">select 默认样式</h3>
+<pre><code class="lang-html">&lt;select autocomplete=&quot;off&quot;&gt;
+  &lt;option value=&quot;0&quot;&gt;单选&lt;/option&gt;
+  &lt;option value=&quot;1&quot; selected=&quot;selected&quot;&gt;多选&lt;/option&gt;
+&lt;/select&gt;
+</code></pre>
+<p>普通浏览器直接在 option 下加 select=&quot;selected&quot; 就可以修改默认选择样式，火狐浏览器不行，需要给 select 添加 autocomplete=&quot;off&quot;</p>
+<h3 id="-">设置高度为屏幕高度</h3>
+<p>css 样式</p>
+<pre><code class="lang-css">.classname {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  height: 100%;
+  overflow: hidden;
+}
+</code></pre>
+<h3 id="-input-type-checkbox-">改变 input type=&#39;checkbox&#39; 样式</h3>
+<pre><code class="lang-html">&lt;div class=&quot;box&quot;&gt;
+    &lt;input id=&#39;test&#39; type=&quot;checkbox&quot;&gt;
+    &lt;label for=&quot;test&quot; class=&quot;test&quot;&gt;
+      测试按钮
+    &lt;/label&gt;
+  &lt;/div&gt;
+</code></pre>
+<pre><code class="lang-css">.box {
+  position: relative;
+  padding-left: 30px;
+}
+
+.box input[type=&quot;checkbox&quot;] {
+  position: absolute;
+  z-index: -1;
+  opacity: 0;
+}
+
+.test::before {
+  left: 0;
+  content: &quot;&quot;;
+  display: block;
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  background-color: #ccc;
+  top: 0;
+}
+
+.test::after {
+  top: 0;
+  left: 0;
+  content: &quot;&quot;;
+  display: block;
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+
+.box input:checked + .test::before {
+  background-color: #00b3d4;
+}
+
+.box input:checked + .test::after {
+  background-image: url(&quot;./img/勾.png&quot;);
+}
+/* 注：before是背景颜色，after是背景图片，有些时候可以合二为一，只用一个 */
+</code></pre>
+<h3 id="-select-">改变 select 下拉箭头样式</h3>
+<h3 id="-">无法选中(双击无法变蓝)</h3>
+<pre><code class="lang-css">.text {
+  -moz-user-select: none; /*火狐*/
+  -webkit-user-select: none; /*webkit浏览器*/
+  -ms-user-select: none; /*IE10*/
+  -khtml-user-select: none; /*早期浏览器*/
+  user-select: none;
+  /*user-select有2个值（none表示不能选中文本，text表示可以选择文本）*/
+}
+</code></pre>
+<h3 id="-">函数的节流和防抖(减少函数执行次数)</h3>
+<h3 id="-">双击可编辑内容</h3>
+<h3 id="input-checkbox-">input checkbox 默认选中</h3>
+<pre><code class="lang-html">&lt;input type=&quot;checkbox&quot; checked=&quot;true&quot;&gt;
+</code></pre>
+<h3 id="-js-">用 JS 在字符过长时加省略号</h3>
+<pre><code class="lang-js">var str = document.getElementById(&quot;td1&quot;).innerHTML
+var cd = str.length
+if (cd &gt; 5) {
+  document.getElementById(&quot;td1&quot;).innerHTML = str.substring(0, 5) + &quot;...&quot;
+}
+</code></pre>
+
+          	</article>
+        </div>
+		</div>
+  </body>
+</html>
+<script type="text/javascript" src="toc/js/jquery-1.4.4.min.js"></script>
+<script type="text/javascript" src="toc/js/jquery.ztree.all-3.5.min.js"></script>
+<script type="text/javascript" src="toc/js/ztree_toc.js"></script>
+<script type="text/javascript" src="toc_conf.js"></script>
+
+<SCRIPT type="text/javascript" >
+<!--
+$(document).ready(function(){
+    var css_conf = eval(markdown_panel_style);
+    $('#readme').css(css_conf)
+    
+    var conf = eval(jquery_ztree_toc_opts);
+		$('#tree').ztree_toc(conf);
+});
+//-->
+</SCRIPT>
