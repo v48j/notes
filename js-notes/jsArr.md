@@ -44,6 +44,8 @@ arr.indexOf(arr[i])
 
 - **find** 返回一个搜索结果，不改变原数组
 
+例如 `Arr.find(ele => ele.id === "110")` 搜索数组中id=110的那一项
+
 - **findIndex** 返回搜索结果位置
 
 例如 `arr.findIndex(ele => ele.id === 5)` 寻找 id=5 的元素的索引

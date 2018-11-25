@@ -1,0 +1,173 @@
+<html>
+  <head>
+	  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>i5ting_ztree_toc:jsStr</title>
+		<link href="toc/style/github-bf51422f4bb36427d391e4b75a1daa083c2d840e.css" media="all" rel="stylesheet" type="text/css"/>
+		<link href="toc/style/github2-d731afd4f624c99a4b19ad69f3083cd6d02b81d5.css" media="all" rel="stylesheet" type="text/css"/>
+		<link href="toc/css/zTreeStyle/zTreeStyle.css" media="all" rel="stylesheet" type="text/css"/>
+	  <style>
+		pre {
+		    counter-reset: line-numbering;
+		    border: solid 1px #d9d9d9;
+		    border-radius: 0;
+		    background: #fff;
+		    padding: 0;
+		    line-height: 23px;
+		    margin-bottom: 30px;
+		    white-space: pre;
+		    overflow-x: auto;
+		    word-break: inherit;
+		    word-wrap: inherit;
+		}
+
+		pre a::before {
+		  content: counter(line-numbering);
+		  counter-increment: line-numbering;
+		  padding-right: 1em; /* space after numbers */
+		  width: 25px;
+		  text-align: right;
+		  opacity: 0.7;
+		  display: inline-block;
+		  color: #aaa;
+		  background: #eee;
+		  margin-right: 16px;
+		  padding: 2px 10px;
+		  font-size: 13px;
+		  -webkit-touch-callout: none;
+		  -webkit-user-select: none;
+		  -khtml-user-select: none;
+		  -moz-user-select: none;
+		  -ms-user-select: none;
+		  user-select: none;
+		}
+
+		pre a:first-of-type::before {
+		  padding-top: 10px;
+		}
+
+		pre a:last-of-type::before {
+		  padding-bottom: 10px;
+		}
+
+		pre a:only-of-type::before {
+		  padding: 10px;
+		}
+
+		.highlight { background-color: #ffffcc } /* RIGHT */
+		</style>
+  </head>
+  <body>
+	  <div>
+				<div style='width:25%;'>
+						<ul id="tree" class="ztree" style='width:100%'>
+
+						</ul>
+				</div>
+        <div id='readme' style='width:70%;margin-left:20%;'>
+          	<article class='markdown-body'>
+            	<h1 id="-">字符串</h1>
+<h2 id="-">转换</h2>
+<ul>
+<li><strong>split(&#39; &#39;)</strong>  是字符串的方法，将字符串转换成数组，转换之后数组内容是字符串类型 括号内天的东西是以什么为基准拆分数组</li>
+<li><strong>join()</strong>  是数组的方法，将数组转换成字符串</li>
+</ul>
+<h2 id="-">修改</h2>
+<p>不会改变原字符串，而是产生一个新的字符串：</p>
+<ul>
+<li><strong>str.silce(a,b)</strong>  字符串截取  包括开始，不包括结束  得到h</li>
+<li><strong>substring(a,b)</strong>  与上方法基本相同</li>
+</ul>
+<p>a是截取的开始位置(必填) ,b是截取的结束位置,填负数表示倒数第几个字符，不填表示到结束(选填)</p>
+<ul>
+<li><strong>substr(a,b)</strong>  截取字符串，a代表开始位置,负数表示倒数第几个。b代表截取的长度，不填表示到结束(选填)</li>
+</ul>
+<p>注意，增加字符串和删除字符串都基于上面的方法</p>
+<ul>
+<li><p><strong>toLowerCase()  toUpperCase()</strong>   字符串转换成小写，大写</p>
+</li>
+<li><p><strong>trim()</strong>  去掉字符串左右的空白符(空格) 原字符串没有被改变</p>
+</li>
+<li><p><strong>trimLeft()  tripRight()</strong>  去掉左/右边空白</p>
+</li>
+<li><p><strong>replace()</strong>  字符串替换,源字符串不会改变</p>
+</li>
+</ul>
+<pre><code class="lang-javascript">var str1 = &#39;2015 2016 2017&#39;
+srt1.replace(&#39;被替换的字符串或正则表达式&#39;,&#39;替换成的东西&#39;)
+var str2 = str1.replace(&#39;/to/g&#39; &#39;To&#39;)
+</code></pre>
+<h2 id="-">查找</h2>
+<p>var str = &#39;hello&#39;</p>
+<ul>
+<li><strong>str.charAt(0)</strong>         获得字符串对应的字符    获得h</li>
+<li><p><strong>str.charCodeAt(0)</strong>     获得对应字符的编码值</p>
+</li>
+<li><p><strong>str.endWith(&#39;abc&#39;)</strong>    检测字符串是否以某段字符串结尾  返回对错</p>
+</li>
+<li><p><strong>startWith(&#39;aa&#39;)</strong>       检测以什么为开始</p>
+</li>
+<li><p><strong>includes(&#39;aa&#39;)</strong>        是否包含  结果为true 或false</p>
+</li>
+<li><p><strong>indexOf(&#39;aa&#39;,b)</strong>         是否包含  结果为位置或-1,b是检索开始位置(选填)</p>
+</li>
+<li><strong>search()</strong>              返回正确查找的开始位置 否则返回-1  可以填写正则表达式</li>
+<li><strong>match(a)</strong>           在字符串内检索指定的值，或找到一个或多个正则表达式的匹配<blockquote>
+<p>a是一个需要检索的字符串或者正则表达式
+通常情况下匹配到第一个符合条件的元素就停止，返回值是符合条件的字符串，以及位置信息，没找到返回null
+当检索内容是一个正则表达式，且有全局标志g的时候。会进行全局检索，返回多个符合条件的字符串组成的数组，但不会有位置信息，需要信息的话则用RegExp.exec()</p>
+</blockquote>
+</li>
+</ul>
+<p>注:三者区别</p>
+<blockquote>
+<p>indexOf    只接受搜索字符串，可以调节开始位置  返回第一个位置信息
+search     检索字符串或者正则表达式  不可调位置  返回第一个位置信息
+match      检索字符串或正则表达式  可以返回多个符合条件的元素(数组)
+取决于是否有全局标志g</p>
+</blockquote>
+<h2 id="-">增</h2>
+<p>参数说明：str表示原字符串变量，item表示要插入的字符串，index表示要插入的位置。</p>
+<pre><code class="lang-r">function insert_item(str,item,index){
+var newstr=&quot;&quot;;             //初始化一个空字符串
+var tmp=str.substring(0,index);
+var estr=str.substring(index,str.length);
+newstr+=tmp+item+estr;
+return newstr;
+}
+console.log(insert_item(&quot;你好&quot;,&quot;们&quot;,1));
+</code></pre>
+<h2 id="-">删</h2>
+<p>1.删除指定位置的字符 x代表要删除的位置, num代表删除字符的个数
+<code>str = str.substring(0,x) + str.substring(x+num,str.length);</code></p>
+<p>2.删除指定字符</p>
+<pre><code class="lang-r">var str=&quot;xxxxxxxxabcxxxxxxxxxxxx&quot;;
+var pattern = &quot;abc&quot;;
+str = str.replace(new RegExp(pattern), &quot;&quot;);
+console.log(str);
+</code></pre>
+<p>练习  找出一段文字中的温度数字
+var str1=&#39;今天是12号，最高气温23℃，最低气温-2℃&#39;
+    var str2=str1.match(/-?[0-9]{1,2}[℃]/g)
+    console.log(str2)</p>
+
+          	</article>
+        </div>
+		</div>
+  </body>
+</html>
+<script type="text/javascript" src="toc/js/jquery-1.4.4.min.js"></script>
+<script type="text/javascript" src="toc/js/jquery.ztree.all-3.5.min.js"></script>
+<script type="text/javascript" src="toc/js/ztree_toc.js"></script>
+<script type="text/javascript" src="toc_conf.js"></script>
+
+<SCRIPT type="text/javascript" >
+<!--
+$(document).ready(function(){
+    var css_conf = eval(markdown_panel_style);
+    $('#readme').css(css_conf)
+    
+    var conf = eval(jquery_ztree_toc_opts);
+		$('#tree').ztree_toc(conf);
+});
+//-->
+</SCRIPT>

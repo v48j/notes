@@ -1,0 +1,479 @@
+<html>
+  <head>
+	  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>i5ting_ztree_toc:ajax</title>
+		<link href="toc/style/github-bf51422f4bb36427d391e4b75a1daa083c2d840e.css" media="all" rel="stylesheet" type="text/css"/>
+		<link href="toc/style/github2-d731afd4f624c99a4b19ad69f3083cd6d02b81d5.css" media="all" rel="stylesheet" type="text/css"/>
+		<link href="toc/css/zTreeStyle/zTreeStyle.css" media="all" rel="stylesheet" type="text/css"/>
+	  <style>
+		pre {
+		    counter-reset: line-numbering;
+		    border: solid 1px #d9d9d9;
+		    border-radius: 0;
+		    background: #fff;
+		    padding: 0;
+		    line-height: 23px;
+		    margin-bottom: 30px;
+		    white-space: pre;
+		    overflow-x: auto;
+		    word-break: inherit;
+		    word-wrap: inherit;
+		}
+
+		pre a::before {
+		  content: counter(line-numbering);
+		  counter-increment: line-numbering;
+		  padding-right: 1em; /* space after numbers */
+		  width: 25px;
+		  text-align: right;
+		  opacity: 0.7;
+		  display: inline-block;
+		  color: #aaa;
+		  background: #eee;
+		  margin-right: 16px;
+		  padding: 2px 10px;
+		  font-size: 13px;
+		  -webkit-touch-callout: none;
+		  -webkit-user-select: none;
+		  -khtml-user-select: none;
+		  -moz-user-select: none;
+		  -ms-user-select: none;
+		  user-select: none;
+		}
+
+		pre a:first-of-type::before {
+		  padding-top: 10px;
+		}
+
+		pre a:last-of-type::before {
+		  padding-bottom: 10px;
+		}
+
+		pre a:only-of-type::before {
+		  padding: 10px;
+		}
+
+		.highlight { background-color: #ffffcc } /* RIGHT */
+		</style>
+  </head>
+  <body>
+	  <div>
+				<div style='width:25%;'>
+						<ul id="tree" class="ztree" style='width:100%'>
+
+						</ul>
+				</div>
+        <div id='readme' style='width:70%;margin-left:20%;'>
+          	<article class='markdown-body'>
+            	<p>json-server --version
+json-server --watch db.json -p 3008</p>
+<h1 id="-">发送请求</h1>
+<h2 id="ajax">Ajax</h2>
+<p>Ajax 是一种无需重新加载整个网页的情况下，能够更新部分网页的技术
+异步和同步</p>
+<h3 id="jq-ajax">jq中的ajax</h3>
+<pre><code class="lang-js">$.ajax({
+    //服务器储存数据的地址  get请求接受参数
+    url:&#39;https://cnodejs.org/api/v1/topics?tab=ask&amp;page=2&#39;
+    //请求的方法 get post，默认get，注意要大学
+    type:&#39;GET&#39;
+    //解决跨域问题，是jq的解决方法,只能解决get方法，不能解决post方法
+    dataType:&#39;jasonp&#39;
+    //后台设置了允许跨域之后前台设置
+    //crossDomain：true
+    //请求成功之后执行的函数 里面的参数 data是请求的结果,data是什么样子由后台决定
+    //data.data 是我们需要的数据
+    success:function(data){
+        console.log(data.data)
+    },
+    //err错误信息
+    error:function(err){
+        console.log(err)
+    }
+})
+</code></pre>
+<p>另一种写法</p>
+<pre><code class="lang-js">$.ajax({
+        url: &#39;https://cnodejs.org/api/v1/topics&#39;,
+        type: &#39;GET&#39;,
+        //data:{内容}    向后台发送数据，通常是一个对象
+        data:{accesstoken:&#39;9948d556-1825-416f-934f-b3ce046403e3&#39;}
+    })
+    .done(function(data) {
+        console.log(data);
+    })
+    .fail(function(err) {
+        console.log(&quot;error&quot;);
+    })
+</code></pre>
+<p>上传数据</p>
+<pre><code class="lang-js">$.ajax({
+      url: &#39;http://localhost:3008/comments&#39;,
+      type: &#39;POST&#39;,
+      data: {body: comment,aa:val}
+    })
+    .done(function() {
+      console.log(&quot;success&quot;);
+    })
+    .fail(function() {
+      console.log(&quot;error&quot;);
+    })
+</code></pre>
+<p>json  格式
+对象的属性名用双引号包裹，属性值是字符串的话也用双引号，属性之间用逗号，最后一项没有逗号</p>
+<p>删除数据</p>
+<pre><code class="lang-js">$.ajax({
+      url: &#39;http://localhost:3008/comments/id&#39;,
+      type: &#39;DELETE&#39;
+    })
+    .done(function() {
+      console.log(&quot;success&quot;);
+    })
+    .fail(function() {
+      console.log(&quot;error&quot;);
+    })
+</code></pre>
+<hr>
+<h3 id="-">本地存储</h3>
+<p>将token的信息 存储到本地浏览器</p>
+<p>用户名和头像以及用户id全部存到本地浏览器</p>
+<p>h5的本地储存 localStorage  sessionStorage  cookie</p>
+<p>sessionStorage  其实就是一个对象</p>
+<p>f12下的 application 可以查询到本地存储的信息</p>
+<p>var token = &#39;asd&#39; (后台发送得到)</p>
+<p>sessionStorage 方法存储信息,关闭页面就会消失</p>
+<p>sessionStorage.token = token</p>
+<p>sessionStorage.user_name = &#39;zzt&#39;</p>
+<p>清除sessionStorage 存储  .removeItem(&#39;属性名&#39;)</p>
+<p>  sessionStorage.removeItem(&#39;token&#39;)</p>
+<p>删除所有数据sessionStorage.clear()</p>
+<p>获取sessionStorage某些数据</p>
+<p>  var data = sessionStorage.getItem(&#39;key&#39;)</p>
+<p>保存数据到sessionStorage</p>
+<p>  sessionStorage.setItem(&#39;key&#39;,&#39;value&#39;)</p>
+<p>localStorage 方法存储信息，页面关闭不会消失</p>
+<p>localStorage.token = token</p>
+<p>localStorage.removeItem(&#39;token&#39;)</p>
+<h3 id="-ajax">原生ajax</h3>
+<pre><code class="lang-js">//1.想要发送ajax请求必须创建 XMLHttpRequest 对象
+var xml = new XMLHttpRequest()
+//2.发请求使用该对象的 open() 方法创建一个请求并使用 send 发送请求
+//open(a,b,c) a:发送请求的类型(GET,POST,DELETE) b:请求的地址 c:同步还是异步，绝大多数情况是异步，值为true
+xml.open(&#39;GET&#39;,&#39;http://xxx&#39;,true)
+xml.setRequestHeader(&quot;Content-type&quot;,&quot;application/json&quot;) //请求头仅限于POST类型
+xml.send(str)   //str 仅限于 POST 请求
+//3.接收请求后的结果 使用该对象的 onreadystatechange 事件监听请求过程
+xml.onreadystatechange = function(){
+    //请求成功标志  xml.readyState状态  xml.status状态码
+    if(xml.readyState == 4 &amp;&amp; xml.status == 200){
+    //状态为4：请求已完成，且响应已就绪 状态码200
+    //xml.responseText 是成功之后返回的数据是json串类型(字符串)
+    //我们要使用 json 对象的 parse 方法转化为对象形式
+    //对应的 json 对象的 stringify 方法可以将对象转化为 json 字符串
+    console.log(JSON.parse(xml.responseText))
+    //JSON.parse(xml.responseText)就是返回来的数据
+    console.log(JSON.stringify(xxx))
+
+    }
+}
+</code></pre>
+<h2 id="-axios-">使用axios插件发送请求</h2>
+<h3 id="axios-">axios库方法：增删改</h3>
+<p><strong>获得一个   地址去掉/id获得所有</strong></p>
+<pre><code class="lang-js">axios.get(&#39;地址/id&#39;)
+.then(function(res){
+
+})
+.catch(function(err){
+
+})
+
+axios.post(&#39;地址&#39;,{body:&#39;123456&#39;})
+.then(function(res){
+
+})
+.catch(function(err){
+
+})
+</code></pre>
+<p><strong>改(put或者patch)</strong></p>
+<pre><code class="lang-js">axios.put(&#39;地址/id&#39;,{body:&#39;123456&#39;})
+.then(function(res){
+res是更新好的数据
+})
+.catch(function(err){
+
+})
+//put是完全更新，patch是合并更新。
+</code></pre>
+<p><strong>删</strong></p>
+<pre><code class="lang-js">axios.delete(&#39;地址/id&#39;)
+.then(function(res){
+
+})
+.catch(function(err){
+
+})
+</code></pre>
+<h3 id="-axios">手动配置axios</h3>
+<p>1.请求配置</p>
+<p><strong>下面是所有可用的<em>请求配置</em>项，只有url是必填，默认的请求方法是GET，如果没有指定请求方法的话</strong></p>
+<pre><code class="lang-js">{
+  // `url` 是请求的接口地址
+  url: &#39;/user&#39;,
+
+  // `method` 是请求的方法
+  method: &#39;get&#39;, // 默认值
+
+  // 如果url不是绝对路径，那么会将baseURL和url拼接作为请求的接口地址
+  // 用来区分不同环境，建议使用
+  baseURL: &#39;https://some-domain.com/api/&#39;,
+
+  // 用于请求之前对请求数据进行操作
+  // 只用当请求方法为‘PUT’，‘POST’和‘PATCH’时可用
+  // 最后一个函数需return出相应数据
+  // 可以修改headers
+  transformRequest: [function (data, headers) {
+    // 可以对data做任何操作
+
+    return data;
+  }],
+
+  // 用于对相应数据进行处理
+  // 它会通过then或者catch
+  transformResponse: [function (data) {
+    // 可以对data做任何操作
+
+    return data;
+  }],
+
+  // `headers` are custom headers to be sent
+  headers: {&#39;X-Requested-With&#39;: &#39;XMLHttpRequest&#39;},
+
+  // URL参数
+  // 必须是一个纯对象或者 URL参数对象
+  params: {
+    ID: 12345
+  },
+
+  // 是一个可选的函数负责序列化`params`
+  // (e.g. https://www.npmjs.com/package/qs, http://api.jquery.com/jquery.param/)
+  paramsSerializer: function(params) {
+    return Qs.stringify(params, {arrayFormat: &#39;brackets&#39;})
+  },
+
+  // 请求体数据
+  // 只有当请求方法为&#39;PUT&#39;, &#39;POST&#39;,和&#39;PATCH&#39;时可用
+  // 当没有设置`transformRequest`时，必须是以下几种格式
+  // - string, plain object, ArrayBuffer, ArrayBufferView, URLSearchParams
+  // - Browser only: FormData, File, Blob
+  // - Node only: Stream, Buffer
+  data: {
+    firstName: &#39;Fred&#39;
+  },
+
+  // 请求超时时间（毫秒）
+  timeout: 1000,
+
+  // 是否携带cookie信息
+  withCredentials: false, // default
+
+  // 统一处理request让测试更加容易
+  // 返回一个promise并提供一个可用的response
+  // 其实我并不知道这个是干嘛的！！！！
+  // (see lib/adapters/README.md).
+  adapter: function (config) {
+    /* ... */
+  },
+
+  // `auth` indicates that HTTP Basic auth should be used, and supplies credentials.
+  // This will set an `Authorization` header, overwriting any existing
+  // `Authorization` custom headers you have set using `headers`.
+  auth: {
+    username: &#39;janedoe&#39;,
+    password: &#39;s00pers3cret&#39;
+  },
+
+  // 响应格式
+  // 可选项 &#39;arraybuffer&#39;, &#39;blob&#39;, &#39;document&#39;, &#39;json&#39;, &#39;text&#39;, &#39;stream&#39;
+  responseType: &#39;json&#39;, // 默认值是json
+
+  // `xsrfCookieName` is the name of the cookie to use as a value for xsrf token
+  xsrfCookieName: &#39;XSRF-TOKEN&#39;, // default
+
+  // `xsrfHeaderName` is the name of the http header that carries the xsrf token value
+  xsrfHeaderName: &#39;X-XSRF-TOKEN&#39;, // default
+
+  // 处理上传进度事件
+  onUploadProgress: function (progressEvent) {
+    // Do whatever you want with the native progress event
+  },
+
+  // 处理下载进度事件
+  onDownloadProgress: function (progressEvent) {
+    // Do whatever you want with the native progress event
+  },
+
+  // 设置http响应内容的最大长度
+  maxContentLength: 2000,
+
+  // 定义可获得的http响应状态码
+  // return true、设置为null或者undefined，promise将resolved,否则将rejected
+  validateStatus: function (status) {
+    return status &gt;= 200 &amp;&amp; status &lt; 300; // default
+  },
+
+  // `maxRedirects` defines the maximum number of redirects to follow in node.js.
+  // If set to 0, no redirects will be followed.
+  // 最大重定向次数？没用过不清楚
+  maxRedirects: 5, // default
+
+  // `httpAgent` and `httpsAgent` define a custom agent to be used when performing http
+  // and https requests, respectively, in node.js. This allows options to be added like
+  // `keepAlive` that are not enabled by default.
+  httpAgent: new http.Agent({ keepAlive: true }),
+  httpsAgent: new https.Agent({ keepAlive: true }),
+
+  // &#39;proxy&#39; defines the hostname and port of the proxy server
+  // Use `false` to disable proxies, ignoring environment variables.
+  // `auth` indicates that HTTP Basic auth should be used to connect to the proxy, and
+  // supplies credentials.
+  // This will set an `Proxy-Authorization` header, overwriting any existing
+  // `Proxy-Authorization` custom headers you have set using `headers`.
+  // 代理
+  proxy: {
+    host: &#39;127.0.0.1&#39;,
+    port: 9000,
+    auth: {
+      username: &#39;mikeymike&#39;,
+      password: &#39;rapunz3l&#39;
+    }
+  },
+
+  // `cancelToken` specifies a cancel token that can be used to cancel the request
+  // (see Cancellation section below for details)
+  // 用于取消请求？又是一个不知道怎么用的配置项
+  cancelToken: new CancelToken(function (cancel) {
+  })
+}
+</code></pre>
+<p>2.默认配置及其修改</p>
+<p>全局修改axios默认配置</p>
+<pre><code class="lang-js">axios.defaults.baseURL = &#39;https://api.example.com&#39;;
+axios.defaults.headers.common[&#39;Authorization&#39;] = AUTH_TOKEN;
+axios.defaults.headers.post[&#39;Content-Type&#39;] = &#39;application/x-www-form-urlencoded&#39;;
+axios.defaults.timeout = 5000;
+</code></pre>
+<p>实例默认配置</p>
+<pre><code class="lang-js">// 创建实例时修改配置
+var instance = axios.create({
+  baseURL: &#39;https://api.example.com&#39;
+});
+
+// 实例创建之后修改配置
+instance.defaults.headers.common[&#39;Authorization&#39;] = AUTH_TOKEN;
+</code></pre>
+<p>配置优先级</p>
+<pre><code class="lang-js">// 创建一个实例，这时的超时时间为系统默认的 0
+var instance = axios.create();
+
+// 通过instance.defaults重新设置超时时间为2.5s，因为优先级比系统默认高
+instance.defaults.timeout = 2500;
+
+// 通过request config重新设置超时时间为5s，因为优先级比instance.defaults和系统默认都高
+instance.get(&#39;/longRequest&#39;, {
+  timeout: 5000
+});
+</code></pre>
+<h3 id="-axios-">为axios添加拦截器</h3>
+<p>你可以在then和catch之前拦截请求和响应。</p>
+<pre><code class="lang-js">// 添加一个请求拦截器
+axios.interceptors.request.use(function (config) {
+    //数据发送前做些事情，例如，可以添加判断防止重复请求同一url，添加请求头等事情
+    return config;
+  }, function (error) {
+    // Do something with request error
+    return Promise.reject(error);
+  });
+
+// 添加一个响应拦截器
+axios.interceptors.response.use(function (response) {
+    // Do something with response data
+    return response;
+  }, function (error) {
+    //请求失败做的事情，例如，根据返回的状态码自定义报错
+    return Promise.reject(error);
+  });
+</code></pre>
+<p>移除拦截器</p>
+<pre><code class="lang-js">var myInterceptor = axios.interceptors.request.use(function () {/*...*/});
+axios.interceptors.request.eject(myInterceptor);
+</code></pre>
+<p>你也可以为axios实例添加一个拦截器</p>
+<pre><code class="lang-js">var instance = axios.create();
+instance.interceptors.request.use(function () {/*...*/});
+</code></pre>
+<h3 id="-">错误处理</h3>
+<pre><code class="lang-js">axios.get(&#39;/user/12345&#39;)
+  .catch(function (error) {
+    if (error.response) {
+      // 发送请求后，服务端返回的响应码不是 2xx   
+      console.log(error.response.data);
+      console.log(error.response.status);
+      console.log(error.response.headers);
+    } else if (error.request) {
+      // 发送请求但是没有响应返回
+      console.log(error.request);
+    } else {
+      // 其他错误
+      console.log(&#39;Error&#39;, error.message);
+    }
+    console.log(error.config);
+  });
+</code></pre>
+<p>你可以用validateStatus定义一个http状态码返回的范围.</p>
+<pre><code class="lang-js">axios.get(&#39;/user/12345&#39;, {
+  validateStatus: function (status) {
+    return status &lt; 500; // Reject only if the status code is greater than or equal to 500
+  }
+})
+</code></pre>
+<h3 id="-">取消请求</h3>
+<pre><code class="lang-js">var CancelToken = axios.CancelToken;
+var source = CancelToken.source();
+
+axios.get(&#39;/user/12345&#39;, {
+  cancelToken: source.token
+}).catch(function(thrown) {
+  if (axios.isCancel(thrown)) {
+    console.log(&#39;Request canceled&#39;, thrown.message);
+  } else {
+    // handle error
+  }
+});
+
+// cancel the request (the message parameter is optional)
+source.cancel(&#39;Operation canceled by the user.&#39;);
+</code></pre>
+
+          	</article>
+        </div>
+		</div>
+  </body>
+</html>
+<script type="text/javascript" src="toc/js/jquery-1.4.4.min.js"></script>
+<script type="text/javascript" src="toc/js/jquery.ztree.all-3.5.min.js"></script>
+<script type="text/javascript" src="toc/js/ztree_toc.js"></script>
+<script type="text/javascript" src="toc_conf.js"></script>
+
+<SCRIPT type="text/javascript" >
+<!--
+$(document).ready(function(){
+    var css_conf = eval(markdown_panel_style);
+    $('#readme').css(css_conf)
+    
+    var conf = eval(jquery_ztree_toc_opts);
+		$('#tree').ztree_toc(conf);
+});
+//-->
+</SCRIPT>

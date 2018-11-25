@@ -65,12 +65,15 @@ css 样式
 .box {
   position: relative;
   padding-left: 30px;
+  height:30px;
 }
 
 .box input[type="checkbox"] {
   position: absolute;
   z-index: -1;
   opacity: 0;
+  top:0;
+  left:0;
 }
 
 .test::before {
@@ -142,3 +145,49 @@ if (cd > 5) {
   document.getElementById("td1").innerHTML = str.substring(0, 5) + "..."
 }
 ```
+### CSS控制文字，超出部分显示省略号
+
+```css
+{
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+  width:100px;
+}
+
+```
+
+### js动态加载文件
+
+```js
+//封装好一个loadScript函数
+function loadScript(url, callback) {
+  var script = document.createElement("script");
+  script.type = "text/javascript";
+  if (typeof (callback) != "undefined") {
+    if (script.readyState) {
+      script.onreadystatechange = function () {
+        if (script.readyState == "loaded" || script.readyState == "complete") {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else {
+      script.onload = function () {
+        callback();
+      };
+    }
+  };
+  script.src = url;
+  document.body.appendChild(script);
+}
+//使用loadScript动态加载文件
+loadScript("https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js", function () {
+  //加载,并执行回调函数
+  alert('动态引入jquery成功')
+});
+```
+
+### jq的$.ajax()在ie10及其以下失效
+
+在js文件中加入`jQuery.support.cors = true;`

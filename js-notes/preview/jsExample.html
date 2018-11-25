@@ -111,12 +111,15 @@ alert(str2)
 <pre><code class="lang-css">.box {
   position: relative;
   padding-left: 30px;
+  height:30px;
 }
 
 .box input[type=&quot;checkbox&quot;] {
   position: absolute;
   z-index: -1;
   opacity: 0;
+  top:0;
+  left:0;
 }
 
 .test::before {
@@ -175,6 +178,15 @@ var cd = str.length
 if (cd &gt; 5) {
   document.getElementById(&quot;td1&quot;).innerHTML = str.substring(0, 5) + &quot;...&quot;
 }
+</code></pre>
+<h3 id="css-">CSS控制文字，超出部分显示省略号</h3>
+<pre><code class="lang-css">{
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+  width:100px;
+}
+
 </code></pre>
 
           	</article>

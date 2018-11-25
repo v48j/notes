@@ -81,7 +81,7 @@ if 内的内容可以填很多形式，以判断各种不同的需求而选择�
 - **concat()**
   concat()方法用于合并两个或多个数组。此方法不会更改现有数组，而是返回一个新数组。
 
-```ruby
+```js
 var num1 = [1, 2, 3],
     num2 = [4, 5, 6],
     num3 = [7, 8, 9];
@@ -100,7 +100,7 @@ console.log(nums);
 
 - **slice()** 方法返回一个从开始到结束（不包括结束）选择的数组的一部分浅拷贝到一个新数组对象。且原始数组不会被修改。
 
-```ruby
+```js
 var animals = ['ant', 'bison', 'camel', 'duck', 'elephant'];
 
 console.log(animals.slice(2));
@@ -121,7 +121,7 @@ console.log(animals.slice(1, 5));
 
 - **filter** 筛选并返回一个数组，不改变原数组
 
-> ```ruby
+> ```js
 > var student = [
 >    {
 >        name:'aaa',
@@ -147,7 +147,7 @@ console.log(animals.slice(1, 5));
 
 - **map** 映射 将数组生成一个新的数组 数组个数不变
 
-```ruby
+```js
 var numArr = [1,2,3,4]
 var newNum = numArr.map(function(ele){
     return ele*ele
@@ -158,7 +158,7 @@ var newNum = numArr.map(function(ele){
 
 - **reduce**(函数，结果初始值) 通常用于一个数组变成一个数或者对象时使用
 
-> ```ruby
+> ```js
 > var shopping = [
 >    {
 >    goodsName:'car',
@@ -212,7 +212,7 @@ document.querySelectorAll('.css选择器') 获得一个类数组  ie8
 
 >var ele = docunment.createElement('div')  创建的本质是一个html标签对象操作
 
-```r
+```js
 var ele = document.createElement('div')  创建一个标签
 ele.getAttribute('class','box1')
 ele.innerText = '123'
@@ -280,7 +280,7 @@ ele.checked   值为true(选中)或fasle(未选中)
 
 + **1.js代码中找到元素，直接添加**
 
-```r
+```js
 btn.onclick = function(){
     document.getElementsByClassName('box')[0].style.backgroundColor = 'red'
 }
@@ -290,7 +290,7 @@ btn.onclick = function(){
 
 >+ **事件委托**
 >
->```r
+>```js
 >ele.onclick=function aa(){
 >    var target=this.target
 >    if(target.tagName==='A'){
@@ -301,7 +301,7 @@ btn.onclick = function(){
 
 + **2.js代码中定义函数，html中调用**
 
-```r
+```js
 <button onclick="test()"> 删除 </button>
 
 js:
@@ -315,7 +315,7 @@ js:
 
 这样做的优点是可以添加，不会覆盖之前写好的事件，便于维护
 
-```r
+```js
 ele.addEventListener('click',function(){
   内容
 },boolean)
@@ -346,7 +346,7 @@ onchange:  checkbox radio select----绑定onchange事件
 
 ele.checked  true(选中) false(未选中)
 
-```r
+```js
  <input type="checkbox" name="" id="all"><label for="all">全选</label>
 
 js：

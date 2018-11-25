@@ -1,0 +1,230 @@
+<html>
+  <head>
+	  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>i5ting_ztree_toc:jq2</title>
+		<link href="toc/style/github-bf51422f4bb36427d391e4b75a1daa083c2d840e.css" media="all" rel="stylesheet" type="text/css"/>
+		<link href="toc/style/github2-d731afd4f624c99a4b19ad69f3083cd6d02b81d5.css" media="all" rel="stylesheet" type="text/css"/>
+		<link href="toc/css/zTreeStyle/zTreeStyle.css" media="all" rel="stylesheet" type="text/css"/>
+	  <style>
+		pre {
+		    counter-reset: line-numbering;
+		    border: solid 1px #d9d9d9;
+		    border-radius: 0;
+		    background: #fff;
+		    padding: 0;
+		    line-height: 23px;
+		    margin-bottom: 30px;
+		    white-space: pre;
+		    overflow-x: auto;
+		    word-break: inherit;
+		    word-wrap: inherit;
+		}
+
+		pre a::before {
+		  content: counter(line-numbering);
+		  counter-increment: line-numbering;
+		  padding-right: 1em; /* space after numbers */
+		  width: 25px;
+		  text-align: right;
+		  opacity: 0.7;
+		  display: inline-block;
+		  color: #aaa;
+		  background: #eee;
+		  margin-right: 16px;
+		  padding: 2px 10px;
+		  font-size: 13px;
+		  -webkit-touch-callout: none;
+		  -webkit-user-select: none;
+		  -khtml-user-select: none;
+		  -moz-user-select: none;
+		  -ms-user-select: none;
+		  user-select: none;
+		}
+
+		pre a:first-of-type::before {
+		  padding-top: 10px;
+		}
+
+		pre a:last-of-type::before {
+		  padding-bottom: 10px;
+		}
+
+		pre a:only-of-type::before {
+		  padding: 10px;
+		}
+
+		.highlight { background-color: #ffffcc } /* RIGHT */
+		</style>
+  </head>
+  <body>
+	  <div>
+				<div style='width:25%;'>
+						<ul id="tree" class="ztree" style='width:100%'>
+
+						</ul>
+				</div>
+        <div id='readme' style='width:70%;margin-left:20%;'>
+          	<article class='markdown-body'>
+            	<h1 id="jquery">jQuery</h1>
+<h2 id="-">选择与事件</h2>
+<h3 id="-">选择器（查找类方法）</h3>
+<p> <strong>括号内填写css选择器,然后用引号包起来</strong></p>
+<p>.find() 寻找后代,括号内一定有内容</p>
+<p>.siblings() 寻找兄弟</p>
+<p>.parent() 寻找父代</p>
+<p>.parents() 寻找所有上级元素</p>
+<p>.eq() 准确寻找第几个元素  从0开始计数，里面填写变量的时候不需要用引号包起来</p>
+<p>.children()  寻找子代 括号可以为空</p>
+<p>.first()/.last() 第一个/最后一个</p>
+<p>.next()/.prev()  同级的下一个/上一个兄弟 括号里不用填选择器</p>
+<h3 id="-">方法</h3>
+<p>.index() 获取所选元素的索引值(相对于父级是第几个元素) 从0开始计数</p>
+<p>.attr() 获取/改变 元素的属性值   里面填一个属性值就是获取，填属性值和改变的值即为改变</p>
+<p>.height() / .width()  获取/设置 选中元素的宽高，括号内没有东西时是获取，括号内有值时是赋值</p>
+<p>.css() 改变css样式在行内 <code>$(&quot;.box&quot;).css(&#39;background-color&#39;,&#39;red&#39;);$(&quot;.box&quot;).css({&quot;background-color&quot;:&quot;blue&quot;,&quot;width&quot;:&quot;50px&quot;})</code></p>
+<p>.addClass()/.removeClass()/toggleClass() 添加/删除样式，给元素添加/删除class名</p>
+<p>.text() 改变文本内容</p>
+<p>.val() 改变input的值 <code>$(input).val(&#39;值&#39;)</code></p>
+<p>.hover(function(){},function(){}) 滑入/滑出执行的两个函数，也可以写一个函数，代表只滑入时执行函数</p>
+<p>.scrollTop()  获取元素的页面顶部距离顶部距离值</p>
+<p>.offset().top / .offset().left 获取元素到顶部/左侧 的距离值注意没有括号</p>
+<p>.length  获取元素个数</p>
+<p>.position().top / .position().left 获得元素相对于父级relative的坐标</p>
+<p>event.stopPropagation() 阻止事件向上触发，写在子级事件内，就不会触发祖先的事件</p>
+<h3 id="-">事件</h3>
+<p>.click() 单击时</p>
+<p>.scroll() 滚动时</p>
+<p>.mousemove 鼠标移动事件     event.pageX/ event.pageY  获取鼠标相对于body的坐标值</p>
+<p>.mouseup()/.musedown() 鼠标抬起/鼠标按下</p>
+<p>.focus() 获得焦点</p>
+<p>.blur() 失去焦点</p>
+<p>a.trigger(&#39;事件名&#39;)  模拟触发a的某些事件(click等)</p>
+<h3 id="-dom-">对DOM的操作</h3>
+<p>.text() 获取，设置文本内容</p>
+<p>.html() 获取，设置文本，标签内容</p>
+<p>a.prepend(b) / b.prependTo(a) 将b添加到a的内部子级的第一个</p>
+<p>a.append(b) / b.appendTo(a) 将b添加到a的内部子级的最后一个</p>
+<p>a.remove() 删除a</p>
+<p>a.after(b) / b.insertAfter(a) 给a的后面添加一个同级兄弟</p>
+<p>a.before(b) / b.insertBefore(a) 给a的前面添加一个同级兄弟</p>
+<p>a.empty() 清除标签内所有内容</p>
+<p>.clone() 括号内不添加参数，则只复制html结构；添加参数true，则完全复制，包括事件处理等</p>
+<p>$(&#39;&lt;标签名&gt;&#39;).empty()  清空标签之间的内容</p>
+<h3 id="-">动画类方法</h3>
+<p>.hide() / .show()  消失/出现 括号内填写毫秒数，不写的话没有动画，也可以写&#39;slow&#39;  &#39;fast&#39;</p>
+<p>.toggle() 切换消失/出现 括号内数据同上</p>
+<p>.slideUp()/.slideDown()/.slideToggle 上卷/下拉/ 切换括号内不填写时间数字也会有动画</p>
+<p>.fadeIn()/.fadeOut()/.fadeToggle() 渐入/渐出/切换</p>
+<p>.animate({},1000,[fn(可有可无)]) 自定义，只能改变带数字的属性，背景颜色之类不能改变</p>
+<p>.delay(200)  延时200毫秒执行下一动画，仅限动画</p>
+<h3 id="event">event</h3>
+<p>event.stopPropagation() 阻止事件冒泡</p>
+<p>event.preventDefault() 阻止跳转</p>
+<p>event.which  鼠标，键盘按键 鼠标左1 滚轮2 右3 键盘回车13 注意没有括号</p>
+<p>注：使用变量时不用引号包起来</p>
+<h2 id="-jq-">如何使用jq？</h2>
+<p>1.引入</p>
+<ul>
+<li><p>本地引入 <code>&lt;script src=&quot;文件路径&quot;&gt;&lt;/script&gt;</code></p>
+</li>
+<li><p>cdn <code>&lt;script src=&quot;https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js&quot;&gt;&lt;/script&gt;</code></p>
+</li>
+</ul>
+<p>2.使用</p>
+<p><strong>jq选择对象 绑定事件</strong></p>
+<pre><code class="lang-js">$(&quot;.main&quot;).click(function(){
+    //点击要做的事
+    alert(&quot;内容&quot;)
+})
+</code></pre>
+<p>on可以绑定多个事件处理，让多个事件绑定同一个函数,off解绑,one事件只触发1次</p>
+<pre><code class="lang-js">$(&#39;.box button&#39;).on(&#39;click mouseenter&#39;,function(){
+  alert(&quot;内容&quot;)
+})
+</code></pre>
+<p><strong>键盘事件</strong></p>
+<p>1.在窗口按下键盘触发事件 事件要绑定在 window 身上</p>
+<p>2.大部分键盘事件 都绑定在输入框input上</p>
+<p>keydown keyup keypress</p>
+<pre><code class="lang-js">$(window).keydown(function(){
+  //内容
+})
+</code></pre>
+<p><strong>鼠标事件</strong></p>
+<p>.mousemove()事件  鼠标移动事件</p>
+<p>如何获取 鼠标坐标   获得相对于body的横纵坐标，与父级无关</p>
+<pre><code class="lang-js">$(&#39;.box&#39;).mousemove(function(event){
+    var x = event.pageX
+    var y = event.pageY
+})
+</code></pre>
+<p>.mousedown()事件  鼠标按下事件</p>
+<pre><code class="lang-js">$(&#39;.box2&#39;).mousedown(function(event){
+  //如何判断按下的是鼠标的哪个按键
+  //event.which 获取鼠标按键的按键码
+  //左键1 滚轮2 右键3
+  //console.log(event.which)
+  //event.type 获取该事件的事件类型(在这里是mousedown)
+  if(event.which == 1){
+    //按下左键要做的事
+    $(&#39;.box2&#39;).mousemove(function(){
+       console.log(1)
+    })
+  }
+})
+
+//1.在鼠标的mouseup事件中解除mousemove事件的绑定
+//2.在鼠标的mouseleave事件中解除mousemove事件的绑定
+$(&#39;.box2&#39;).mouseup(function(){
+  $(this).off(&#39;mousemove&#39;)
+})
+$(&#39;.box2&#39;).mouseleave(function(){
+  $(this).off(&#39;mousemove&#39;)
+})
+</code></pre>
+<p><strong>dom元素加载完毕之后执行</strong></p>
+<pre><code class="lang-js">$(&#39;document&#39;).ready(function(){
+  //内容
+})
+//简写$.function(){}
+</code></pre>
+<h2 id="-">方法</h2>
+<p><strong>遍历整个数组，为每个数组内容执行函数</strong></p>
+<pre><code class="lang-js">$.each(arr[],fcuntion(index,ele){         
+  //this.各种操作(this就是每个数组内容)
+})
+</code></pre>
+<h2 id="-">动画</h2>
+<p>.animate({},1000,[fn(可有可无)]) 自定义，只能改变带数字的属性，背景颜色之类不能改变</p>
+<p>.animate({&quot;width&quot;:300,&quot;opacity&quot;:0.5},1000)  用1s时间把宽度改变为300px,同时不透明度变为0.5</p>
+<p>动画回调 某个动画执行完毕之后再执行其他事情  方法:在时间后面加一个function(){}</p>
+<pre><code class="lang-js">     $(&quot;.box&quot;).animate({&quot;width&quot;:300},1000,function(){
+            $(&quot;.box&quot;).animate({&quot;width&quot;:300},1000)
+    })
+</code></pre>
+<p>jq的所有动画都可以在最后面添加一个函数当做动画的回调,除了animate外其他动画要添加动画回调时，必须填1时间2速度曲线3函数</p>
+<pre><code class="lang-js">    fadeOut(1000,&#39;linear&#39;,function(){})
+    //linear:匀速
+</code></pre>
+
+          	</article>
+        </div>
+		</div>
+  </body>
+</html>
+<script type="text/javascript" src="toc/js/jquery-1.4.4.min.js"></script>
+<script type="text/javascript" src="toc/js/jquery.ztree.all-3.5.min.js"></script>
+<script type="text/javascript" src="toc/js/ztree_toc.js"></script>
+<script type="text/javascript" src="toc_conf.js"></script>
+
+<SCRIPT type="text/javascript" >
+<!--
+$(document).ready(function(){
+    var css_conf = eval(markdown_panel_style);
+    $('#readme').css(css_conf)
+    
+    var conf = eval(jquery_ztree_toc_opts);
+		$('#tree').ztree_toc(conf);
+});
+//-->
+</SCRIPT>

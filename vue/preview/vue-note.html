@@ -66,7 +66,7 @@
         <div id='readme' style='width:70%;margin-left:20%;'>
           	<article class='markdown-body'>
             	<h1 id="vue">Vue</h1>
-<h2 id="vue-">Vue 指令</h2>
+<h2 id="vue-">Vue 安装</h2>
 <p>npm i -g @vue/cli 安装
 vue create vue-hello 创建
 npm run serve 启动服务，在 localhost:8080 下查看网页</p>
@@ -102,6 +102,77 @@ export default{
 &lt;/script&gt;
 //注意文件后缀名是.vue
 </code></pre>
+<h2 id="vue-">Vue 指令</h2>
+<ol>
+<li><p>v-text：主要用来更新textContent，可以等同于JS的text属性。</p>
+<p> <code>&lt;span v-text=&quot;msg&quot;&gt;&lt;/span&gt;</code></p>
+<p> 这两者等价：</p>
+<p> <code>&lt;span&gt;{{msg}}&lt;/span&gt;</code></p>
+</li>
+<li><p>v-html:双大括号的方式会将数据解释为纯文本，而非HTML。为了输出真正的HTML，可以用v-html指令。它等同于JS的innerHtml属性。</p>
+<p> <code>&lt;div v-html=&quot;rawHtml&quot;&gt;&lt;/div&gt;</code></p>
+</li>
+</ol>
+<p>这个div的内容将会替换成属性值rawHtml，直接作为HTML进行渲染。</p>
+<ol start="3">
+<li><p>v-bind:用来动态的绑定一个或者多个特性。没有参数时，可以绑定到一个包含键值对的对象。常用于动态绑定class和style。以及href等。简写为一个冒号【 ：】</p>
+<p><code>&lt;div :class=&quot;{&#39;is-active&#39;:isActive, &#39;text-danger&#39;:hasError}&quot;&gt;&lt;/div&gt;</code></p>
+</li>
+<li><p>v-model:这个指令用于在表单上创建双向数据绑定。v-model会忽略所有表单元素的value、checked、selected特性的初始值。因为它选择Vue实例数据做为具体的值。</p>
+<pre><code class="lang-js"> &lt;input v-model=&quot;somebody&quot;&gt;
+ //v-model的修饰符
+ &lt;input v-model.lazy=&quot;msg&quot;&gt;
+ //默认情况下，v-model同步输入框的值和数据。可以通过这个修饰符，转变为在change事件再同步。
+ &lt;input v-model.number=&quot;msg&quot;&gt;//自动将用户的输入值转化为数值类型
+ &lt;input v-model.trim=&quot;msg&quot;&gt;//自动过滤用户输入的首尾空格
+</code></pre>
+</li>
+<li><p>v-on:v-on主要用来监听dom事件，以便执行一些代码块。表达式可以是一个方法名。简写为：【 @ 】</p>
+<pre><code class="lang-js">  &lt;button @click=&quot;consoleLog&quot;&gt;&lt;/button&gt;
+  //阻止单击事件继续传播
+  &lt;a v-on:click.stop=&quot;doThis&quot;&gt;&lt;/a&gt;
+  //提交事件不再重载页面
+  &lt;form v-on:submit.prevent=&quot;onSubmit&quot;&gt;&lt;/form&gt;
+</code></pre>
+<p>  事件修饰符</p>
+<p> .stop 阻止事件继续传播</p>
+<p> .prevent 事件不再重载页面</p>
+<p> .capture 使用事件捕获模式,即元素自身触发的事件先在此处处理，然后才交由内部元素进行处理</p>
+<p> .self 只当在 event.target 是当前元素自身时触发处理函数</p>
+<p> .once 事件将只会触发一次</p>
+<p> .passive 告诉浏览器你不想阻止事件的默认行为</p>
+</li>
+<li><p>v-for:用v-for指令根据遍历数组来进行渲染,有下面两种遍历形式</p>
+<pre><code class="lang-js"> //使用in，index是一个可选参数，表示当前项的索引
+ &lt;div v-for=&quot;(item,index) in items&quot;&gt;&lt;/div&gt;   
+ //使用of
+ &lt;div v-for=&quot;item of items&quot;&gt;&lt;/div&gt;  
+
+ &lt;ul id=&quot;app&quot;&gt;
+     &lt;li v-for=&quot;item in items&quot;&gt;
+         {{parent}}-{{item.text}}
+     &lt;/li&gt;
+ &lt;/ul&gt;
+
+ //注意：当v-for和v-if同处于一个节点时，v-for的优先级比v-if更高。这意味着v-if将运行在每个v-for循环中
+</code></pre>
+</li>
+<li><p>v-if:可以实现条件渲染，Vue会根据表达式的值的真假条件来渲染元素。</p>
+<pre><code class="lang-js"> //如果属性值ok为true，则显示。否则，不会渲染这个元素。
+ &lt;a v-if=&quot;ok&quot;&gt;yes&lt;/a&gt;
+</code></pre>
+</li>
+<li><p>v-else:搭配v-if使用的，它必须紧跟在v-if或者v-else-if后面，否则不起作用。</p>
+<pre><code class="lang-html"> &lt;a v-if=&quot;ok&quot;&gt;yes&lt;/a&gt;
+ &lt;a v-else&gt;No&lt;/a&gt;
+</code></pre>
+</li>
+<li><p>v-show:也是用于根据条件展示元素。和v-if不同的是，如果v-if的值是false，则这个元素被销毁，不在dom中。但是v-show的元素会始终被渲染并保存在dom中，它只是简单的切换css的dispaly属性。</p>
+<pre><code class="lang-html"> &lt;h1 v-show=&quot;ok&quot;&gt;hello world&lt;/h1&gt;
+</code></pre>
+<p> 注意：v-if有更高的切换开销。v-show有更高的初始渲染开销。因此，如果要非常频繁的切换，则使用v-show较好；如果在运行时条件不太可能改变，则v-if较好</p>
+</li>
+</ol>
 <h2 id="vue-">Vue 路由</h2>
 <h3 id="-">安装依赖项</h3>
 <p><code>npm install vue-router</code></p>
@@ -127,7 +198,9 @@ const routes = [
   { path: &quot;/pins&quot;, component: Pins },
   { path: &quot;/events&quot;, component: Events },
   { path: &quot;/404&quot;, component: Error1 },
-  { path: &quot;/user&quot;, component: User }
+  { path: &quot;/user&quot;, component: User },
+  //按需加载，组件不用在用important引入。绝对路径可以在webpack.base.conf中的resolve下的alias配置简写。例如 &#39;@&#39;:resolve(&#39;src&#39;)
+  { path: &quot;/mytask&quot;, component: resolve=&gt;require([&#39;组件的绝对路径&#39;]，resolve)}
 ]
 
 const router = new VueRouter({
@@ -237,6 +310,26 @@ export default {
 }
 &lt;/script&gt;
 </code></pre>
+<h2 id="vue-">Vue 生命周期函数</h2>
+<p>1.beforeCreate  :实例、组件通过new Vue() 创建出来之后会初始化事件和生命周期，然后就会执行beforeCreate钩子函数，这个时候，数据还没有挂载呢，只是一个空壳，无法访问到数据和真实的dom，一般不做操作。可添加过场载入动画。el 和 data 并未初始化。</p>
+<p>2.create        :挂载数据，绑定事件等等，然后执行created函数，这个时候已经可以使用到数据，也可以更改数据,在这里更改数据不会触发updated函数，在这里可以在渲染前倒数第二次更改数据的机会，不会触发其他的钩子函数，一般可以在这里做初始数据的获取。完成了 data 数据的初始化，el没有。</p>
+<p>3.beforeMount   :接下来开始找实例或者组件对应的模板，编译模板为虚拟dom放入到render函数中准备渲染，然后执行beforeMount钩子函数，在这个函数中虚拟dom已经创建完成，马上就要渲染,在这里也可以更改数据，不会触发updated，在这里可以在渲染前最后一次更改数据的机会，不会触发其他的钩子函数，一般可以在这里做初始数据的获取。完成了 el 和 data 初始化。</p>
+<p>4.mounted       :接下来开始render，渲染出真实dom，然后执行mounted钩子函数，此时，组件已经出现在页面中，数据、真实dom都已经处理好了,事件都已经挂载好了，可以在这里操作真实dom等事情...完成挂载。</p>
+<p>5.beforeUpdate  :data中数据发生改变，会重新渲染，调用beforeUpdate。</p>
+<p>6.updated       :data中数据发生改变，会重新渲染，调用updated。</p>
+<p>7.beforeDestory :钩子函数在实例销毁之前调用。在这一步，实例仍然完全可用。</p>
+<p>8.destoryed     :钩子函数在Vue 实例销毁后调用。调用后，Vue 实例指示的所有东西都会解绑定，所有的事件监听器会被移除，所有的子实例也会被销毁。</p>
+<p><strong>总结</strong></p>
+<ul>
+<li><p>beforecreate : 举个栗子：可以在这加个loading事件 </p>
+</li>
+<li><p>created ：在这结束loading，还做一些初始化，实现函数自执行 </p>
+</li>
+<li><p>mounted ： 在这发起后端请求，拿回数据，配合路由钩子做一些事情</p>
+</li>
+<li><p>beforeDestroy： 你确认删除XX吗？ destroyed ：当前组件已被删除，清空相关内容</p>
+</li>
+</ul>
 <h2 id="vue-">Vue 过渡动画</h2>
 <pre><code class="lang-js">&lt;template&gt;
   &lt;div class=&quot;comment&quot;&gt;
@@ -268,6 +361,11 @@ enter 表示 出现
 leave 表示 消失
 to 表示 结束
 什么都没有表示 开始，初始状态</p>
+<h2 id="-">元素受控</h2>
+<p>多用于input。</p>
+<pre><code class="lang-js">&lt;input type=&quot;checkbox&quot; v-model=&quot;boolen&quot;&gt;
+</code></pre>
+<p>checkbox 的绑定通过 v-model绑定，前面不需要冒号，可以直接写变量，也不用绑定其他方法</p>
 <h2 id="vuex">Vuex</h2>
 <ul>
 <li>安装</li>
@@ -404,7 +502,166 @@ export default {
 }
 &lt;/style&gt;
 </code></pre>
-<h2 id="better-scroll">better scroll</h2>
+<h2 id="vue-">Vue 发送请求</h2>
+<h3 id="vue-vue-resource-">Vue 中使用vue-resource插件发送请求</h3>
+<p>1.引入</p>
+<pre><code class="lang-js">&lt;script src=&quot;js/vue.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;js/vue-resource.js&quot;&gt;&lt;/script&gt;
+</code></pre>
+<p>2.另一种引入</p>
+<p><code>npm install vue-resource --save-dev</code></p>
+<p>main.js中用import引入进来</p>
+<p><code>import VueResource from &#39;vue-resource&#39;</code></p>
+<p>同样，main.js中注册，同vue-router</p>
+<p><code>Vue.use(VueResource)</code></p>
+<p>3.直接在对应页面的created钩子函数配置即可</p>
+<pre><code class="lang-js">created() {
+    this.$http.get(&quot;http://jsonplaceholder.typicode.com/todos&quot;)
+    .then((data) =&gt; {
+        this.arrs = data.body;
+})
+</code></pre>
+<p>4.根据拿到的数据结构和内容对应渲染页面中直接渲染使用：</p>
+<pre><code class="lang-js">&lt;li v-for=&quot;item in arrs&quot; v-on:click=&quot;item.completed = ! item.completed&quot;&gt;
+    &lt;!-- {{item}} --&gt;
+    &lt;span class=&quot;id&quot;&gt;{{item.userId}} &lt;/span&gt;
+    &lt;span class=&quot;title&quot;&gt;{{item.title}}&lt;/span&gt;
+    &lt;span class=&quot;completed&quot; v-show=&quot;item.completed&quot;&gt;选中&lt;/span&gt;
+&lt;/li&gt;
+</code></pre>
+<p>5.格式</p>
+<pre><code class="lang-js">this.$http.get(&#39;/someUrl&#39;, [options]).then(successCallback, errorCallback);
+this.$http.post(&#39;/someUrl&#39;, [body], [options]).then(successCallback, errorCallback);
+</code></pre>
+<p>then方法的回调函数也有两种写法，第一种是传统的函数写法，第二种是更为简洁的ES 6的Lambda写法：</p>
+<pre><code class="lang-js">// 传统写法
+this.$http.get(&#39;/someUrl&#39;, [options]).then(function(response){
+  // 响应成功回调
+}, function(response){
+  // 响应错误回调
+});
+// Lambda写法
+this.$http.get(&#39;/someUrl&#39;, [options]).then((response) =&gt; {
+  // 响应成功回调
+}, (response) =&gt; {
+  // 响应错误回调
+});
+</code></pre>
+<p>vue-resource的请求API是按照REST风格设计的，它提供了7种请求API：</p>
+<pre><code class="lang-js">get(url, [options])
+head(url, [options])
+delete(url, [options])
+jsonp(url, [options])
+post(url, [body], [options])
+put(url, [body], [options])
+patch(url, [body], [options])
+</code></pre>
+<p>options对象</p>
+<pre><code class="lang-js">headers; Object; request header(请求头)
+timeout; number; 单位为毫秒的请求超时时间 (0 表示无超时时间)
+body; Object, FormData string; request body
+</code></pre>
+<h3 id="-axios-">使用axios插件发送请求</h3>
+<p>1.安装axios</p>
+<p><code>npm install --save axios</code></p>
+<ol start="2">
+<li>在入口main.js中导入axios 并将axios写入vue的原型，这样就能更简单的使用。</li>
+</ol>
+<pre><code class="lang-js">
+import axios from &#39;axios&#39;
+import Qs from &#39;qs&#39;
+//QS是axios库中带的，不需要我们再npm安装一个
+
+Vue.prototype.axios = axios;
+Vue.prototype.qs = Qs;
+</code></pre>
+<p>3.在项目里愉快的使用axios</p>
+<pre><code class="lang-js">this.axios.post(&#39;/api/test&#39;,this.qs.stringify({&#39;name&#39;:&#39;xiaoming&#39;,&#39;sex&#39;:&#39;nan&#39;}),{
+          headers: {
+            &#39;Content-Type&#39;: &#39;application/x-www-form-urlencoded&#39;
+          }
+        })
+          .then(function(res){
+            console.log(res.data)
+               //bind(this)可以不用
+          }.bind(this))
+          .catch(function(err){
+            if(err.response) {
+              console.log(err.response)
+            }
+                //bind(this)可以不用
+          }.bind(this))
+</code></pre>
+<p>4.进阶，手动配置axios</p>
+<p>在项目中新建api/index.js文件，用以配置axios</p>
+<p>api/index.js</p>
+<pre><code class="lang-js">import axios from &#39;axios&#39;;
+
+let http = axios.create({
+  baseURL: &#39;http://localhost:8080/&#39;,
+  withCredentials: true,
+  headers: {
+    &#39;Content-Type&#39;: &#39;application/x-www-form-urlencoded;charset=utf-8&#39;
+  },
+  transformRequest: [function (data) {
+    let newData = &#39;&#39;;
+    for (let k in data) {
+      if (data.hasOwnProperty(k) === true) {
+        newData += encodeURIComponent(k) + &#39;=&#39; + encodeURIComponent(data[k]) + &#39;&amp;&#39;;
+      }
+    }
+    return newData;
+  }]
+});
+
+function apiAxios(method, url, params, response) {
+  http({
+    method: method,
+    url: url,
+    data: method === &#39;POST&#39; || method === &#39;PUT&#39; ? params : null,
+    params: method === &#39;GET&#39; || method === &#39;DELETE&#39; ? params : null,
+  }).then(function (res) {
+    response(res);
+  }).catch(function (err) {
+    response(err);
+  })
+}
+
+export default {
+  get: function (url, params, response) {
+    return apiAxios(&#39;GET&#39;, url, params, response)
+  },
+  post: function (url, params, response) {
+    return apiAxios(&#39;POST&#39;, url, params, response)
+  },
+  put: function (url, params, response) {
+    return apiAxios(&#39;PUT&#39;, url, params, response)
+  },
+  delete: function (url, params, response) {
+    return apiAxios(&#39;DELETE&#39;, url, params, response)
+  }
+}
+</code></pre>
+<p>这里的配置了POST、GET、PUT、DELETE方法。并且自动将JSON格式数据转为URL拼接的方式</p>
+<p>同时配置了跨域，不需要的话将withCredentials设置为false即可</p>
+<p>并且设置了默认头部地址为：<a href="http://localhost:8080/，这样调用的时候只需写访问方法即可">http://localhost:8080/，这样调用的时候只需写访问方法即可</a></p>
+<p>5.使用配置后的axios</p>
+<p>首先在main.js中引入方法</p>
+<pre><code class="lang-js">import Api from &#39;./api/index.js&#39;;
+Vue.prototype.$api = Api;
+</code></pre>
+<p>然后在需要的地方调用即可</p>
+<pre><code class="lang-js">this.$api.post(&#39;user/login.do(地址)&#39;, {
+    &quot;参数名&quot;: &quot;参数值&quot;
+}, response =&gt; {
+     if (response.status &gt;= 200 &amp;&amp; response.status &lt; 300) {
+        console.log(response.data);\\请求成功，response为成功信息参数
+     } else {
+        console.log(response.message);\\请求失败，response为失败信息
+     }
+});
+</code></pre>
+<h2 id="better-scroll-vue-">better scroll(vue移动端滚轮插件)</h2>
 
           	</article>
         </div>
